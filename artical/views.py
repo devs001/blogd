@@ -89,10 +89,10 @@ def edits_artical(request,articals_id):
     if request.method !='POST':
         form=Artical_f(instance=artica)
     else:
-        form=Artical_f(data=(request.POST,request.FILES),instance=artica)
+        form=Artical_f(request.POST,request.FILES,instance=artica)
         if form.is_valid():
             edited_artical=form.save(commit=False)
-            edited_artical.creater=request.user
+            edited_artical.creater = request.user
             edited_artical.save()
             return redirect('heade')
     context = {'form':form,'artica':artica}

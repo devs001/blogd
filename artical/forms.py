@@ -17,7 +17,6 @@ class ContentsForm(forms.ModelForm):
         lebals = {'txt': 'contents:'}
 
 class Artical_f(forms.ModelForm):
-
     class Meta:
         model = Artical_m
         fields = ['title','slug','said'

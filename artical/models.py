@@ -27,7 +27,7 @@ class Artical_m(models.Model):
     create_date = models.DateTimeField(auto_now_add=True,null=True)
     said = models.TextField()
     creater = models.ForeignKey(User,on_delete= models.CASCADE,null=True)
-    status = models.IntegerField(choices = Status, default=0)
+    status = models.IntegerField(choices=Status, default=0)
     In_image = models.ImageField(blank=True)
     class Meta:
         ordering = ['-create_date']

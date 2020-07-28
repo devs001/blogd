@@ -35,6 +35,9 @@ class Artical_m(models.Model):
     def __str__(self):
         return self.said
 
+class profile(models.Model):
+    creater = models.OneToOneField(User,null=True,no_delete=models.CASCADE)
+    blog = models.Charfield(max_legth)
 
 
 

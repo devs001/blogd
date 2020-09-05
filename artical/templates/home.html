@@ -5,23 +5,19 @@
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="widht=device-widht",initial-scale=1">
+    <meta name="viewport" content="widht=device-widht,initial-scale=1">
     <title>blogdef</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-
 <style>
     body{
     postion:relative;
     }
 </style>
-
 <body data-spy="scroll" data-target="#menu" data-offset="0" >
-
     <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark" >
         <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'heade' %}">heade </a>
-
         <button class="navbar-toggler" type="button"
         data-target="#menu" data-toggle="collapse">
 
@@ -52,13 +48,14 @@
             </div>
         </div>
 </nav>
-    <div class="row"> </div>
-
-      <div class='container' >
-    <div class="pb-6 mb-4">
+<div class="padt">
+      <div class='container-fluid' >
+    <div class="pb-1 mb-4">
 
 {% block content %}
 {% endblock content %}
     </div>
-      </div></body>
+      </div>
+      </div>
+</body>
 </html>

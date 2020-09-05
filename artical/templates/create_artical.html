@@ -1,7 +1,7 @@
 {% extends 'home.html' %}
 {% load bootstrap4 %}
 {% block content %}
-<p>
+
 <div class="jumbotron" id="create_art">
     <div class="display-4"> exprees yourself {{request.user}} </div>
 
@@ -10,5 +10,6 @@
     {% csrf_token %}
 <button type='submit' class="btn btn-primary">create articals </button></form>
 </div>
-</p>
+<a href="{% url 'categoryadd' %}" class="btn btn-primary">add new category</a>
+
         {% endblock content %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Head,Contents,Artical_m
+from .models import (Head,Contents,Artical_m,comments,Category)
 from django.contrib import admin
 
 class HeadForm(forms.ModelForm):
@@ -20,4 +20,17 @@ class Artical_f(forms.ModelForm):
     class Meta:
         model = Artical_m
         fields = ['title','slug','said'
-                  ,'status','In_image']
+                  ,'status','In_image','categories']
+
+class comments_F(forms.ModelForm):
+    class Meta:
+        model = comments
+        fields = ['text']
+        lebals = {'text': ''}
+class Category_Form(forms.ModelForm):
+    
+    class Meta:
+        model = Category
+        fields = ['name','slug','parent_to']
+        lables = {'names': 'names','slug': 'slugs'}
+

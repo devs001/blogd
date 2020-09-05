@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% extends 'home.html' %}
+{% load bootstrap4 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>artical</title>
+</head>
+<body>
+
+
+{% block content %}
+<div class="row">
+<div class="col-md-2">
+</div>
+<div class="col-md-9">
+    <div class="card">
+        <div class="card-header">
+            <div>
+                <img src="{{ artical_m.In_image.url }}" class="nub"  > </div>
+        <p class="display-3" style="display:inline-block"> {{ artical_m.title }} </p>
+        <p class="display-4" style="display:inline-block"> auther {{ artical_m.creater.username }}    </p>
+        <p class="display-5" style="display:inline-block"> {{ artical_m.status  }} </p>
+        <p class="display-5" style="display:inline-block"> create date  {{ artical_m.update_date }}  |</p>
+        <p class="display-5" style="display:inline-block"> {{artical_m.create_date }} </p>
+            </br>
+        </div>
+    <div class="card-body">
+
+          <p class="display-5" style="display:inline-block"> {{ artical_m.said }} </p>
+
+    </div>
+    </div>
+</div>
+
+</div>
+
+<div class="container">
+    <form class="form" action="{% url 'commentsform' id=artical_m.id  %}" method="post">
+    {% csrf_token %}
+        <textarea type="text" class="form-control" name="text" placeholder="enter comments"></textarea>
+    <button type="submit"  class="btn btn-outline-dark"> done</button>
+</form>
+</div>
+<!--<a href="{% url 'commentsshow' id=artical_m.id  %}" class="btn btn-outline-dark"> comments</a>-->
+    {% for commente in comment %}
+    {% if commente.parent_to == None %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-10">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card-body">
+
+                            <img src="{{ commente.comment_to.In_image.url }}" class="rounded-circle" style="width: 40px; height:40px;">
+                            <span class="h2">{{ commente.comment_to.creater.username }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <p class="display-4">{{ commente.text }}</p>
+                        <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#replayto{{commente.id}}"
+                                aria-expanded="false">response</button>
+                        <div class="collapse" id="replayto{{commente.id}}">
+                            <form class="form" action="{% url 'commentsform' id=artical_m.id  %}" method="post">
+                                {% csrf_token %}
+                                <textarea type="text" class="form-control" name="text" placeholder="enter comments"></textarea>
+                                <input type="hidden" name="parent_to" value="{{ commente.id }}">
+                                <button type="submit"  class="btn btn-outline-dark"> done</button>
+                            </form>
+                            {% for commentrep in commente.childrens %}
+                                    <div class="row">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-3">
+                                            <div class="card-body">
+                                                <img src="{{ commente.comment_to.In_image.url }}" class="rounded-circle" style="width: 40px; height:40px;">
+                                                <span class="h2">{{ commentrep.comment_to.creater.username }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                           <div class="card-body">
+                                               <div class="display-5">
+                                                   {{ commentrep.text }}
+                                               </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endfor %}
+</body>
+</html>
+{% endblock content %}

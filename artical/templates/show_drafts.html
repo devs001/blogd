@@ -1,0 +1,23 @@
+{% extends 'show_content.html' %}
+{% load static %}
+{% block content %}
+<div class="card" id="show">
+    {% for artical in articals %}
+    <div class="card-header">
+        <img src="{{ artical.In_image.url }} ">
+        <h1 class="text-center"> drafts- {{artical.title}} </h1>
+        <h2 class="text-center">artical by- {{artical.creater.username}}</h2>
+        <h2 class="text-center">artical by- {{artical.status}}</h2>
+         <a class="btn btn-warning" href="{% url 'delete_artical' artical.id %}"> adelete it - {{artical.title}}</a>
+         <a class="btn btn-primary" href="{% url 'edits_artical' artical.id %}"> edit it - {{artical.title}}</a>
+    </div>
+    <div class="card-body">
+        <p class="">{{ artical.slug}}</p>
+        <P class=""> {{ artical.said }} </P>
+    </div>
+{% empty %}
+  <div class="display-5"> nothing yet</div>
+{% endfor %}
+
+</div>
+{% endblock content %}

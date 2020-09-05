@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from  .views import artical_in
 from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
@@ -7,11 +8,24 @@ urlpatterns = [
     path('heade', views.heade, name='heade'),
     path('create_head', views.create_head, name='create_head'),
     path('show_headin',views.show_heading, name='show_headin'),
-    path('show_contents/<int:head_id>',views.show_contents,name='show_contents'),
-    path('create_contents/<int:head_id>',views.create_contents,name='create_contents'),
+    path('show_contents/<int:head_id>',
+         views.show_contents,name='show_contents'),
+    path('create_contents/<int:head_id>',
+         views.create_contents,name='create_contents'),
     path('create_artical',views.create_artical,name='create_artical'),
     path('show_articals', views.show_articals, name='show_articals'),
-    path('delete_artical/<int:artical_id>', views.delete_artical, name='delete_artical'),
-    path('edits_artical/<int:articals_id>',views.edits_artical,name='edits_artical')
-]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    path('show_drafts', views.show_drafts, name='show_drafts'),
+    path('delete_artical/<int:artical_id>',
+         views.delete_artical, name='delete_artical'),
+    path('edits_artical/<int:articals_id>',
+         views.edits_artical,name='edits_artical'),
+    path('artical_m/<int:id>/',
+         artical_in,name='artical_m'),
+    path('commentsform/<int:id>',
+         views.comments_V,name='commentsform'),
+    path('commentsshow/<int:id>',
+         views.CommentsList.as_view(),name='commentsshow'),
+    path('categoryadd',views.Category_add.as_view(),name='categoryadd')
+
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

@@ -42,11 +42,21 @@ overflow-x:hidden;
 .nav-link{
     color:white;
 }
+.btn{
+    margin : .6rem;
+}
+.padt {
+ padding-top: 4rem;
+}
 .padding {
     padding-bottom: 10rem;
 }
 img.more-pic{
     max-width : 100%;
+}
+.nub {
+    object-fit: contain;
+
 }
 .landing {
   position: relative;

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends 'home.html' %}
+{% load bootstrap4 %}
+{% block content %}
+<body>
+
+<form action="{% url 'categoryadd' %}" class="form" method="post" >
+
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn btn-primary" type="submit">add</button>
+</form>
+
+<h2> categories are
+</h2>
+
+<li>
+    {% for category in categorys %}
+    <ul>{{ category }} </ul>
+{% endfor %}
+{% endblock content %}
+</body>
+</html>

@@ -1,6 +1,8 @@
+from tinymce.widgets import TinyMCE
 from django import forms
 from .models import (Head,Contents,Artical_m,comments,Category)
 from django.contrib import admin
+
 
 class HeadForm(forms.ModelForm):
     class Meta:
@@ -10,23 +12,30 @@ class HeadForm(forms.ModelForm):
             # to keep it empty not to use it we enter a empty string
             labels = {'txt': ''}
 
+
 class ContentsForm(forms.ModelForm):
     class Meta:
-        model = Contents
         fields = ['txt']
         lebals = {'txt': 'contents:'}
 
+class TinyMce(TinyMCE):
+    def use_required_attribute(self, *args):
+        return False
+
 class Artical_f(forms.ModelForm):
+    content=forms.CharField(widget=TinyMCE(attrs={'required':False,"cols":30,'rows':10}))
     class Meta:
         model = Artical_m
         fields = ['title','slug','said'
-                  ,'status','In_image','categories']
+                  ,'status','In_image','categories','tags']
 
 class comments_F(forms.ModelForm):
     class Meta:
         model = comments
         fields = ['text']
         lebals = {'text': ''}
+
+
 class Category_Form(forms.ModelForm):
     
     class Meta:
@@ -34,3 +43,8 @@ class Category_Form(forms.ModelForm):
         fields = ['name','slug','parent_to']
         lables = {'names': 'names','slug': 'slugs'}
 
+
+class Email_Share(forms.Form):
+    Email=forms.EmailField()
+    To=forms.EmailField()
+    Comments=forms.CharField(max_length=350,required=False)

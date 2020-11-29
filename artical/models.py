@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import render,reverse
-
+from taggit.managers import TaggableManager
+from django.db.models import Count
+from tinymce.models import HTMLField
 Status = ((1,'posted'),(0,'in_progress'))
 # Create your models here.
 class Head(models.Model):
@@ -21,6 +23,9 @@ class Contents(models.Model):
     def __str__(self):
         return f"{self.txt[:50]}..."
 
+class PublishedManger(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=1)
 
 class Artical_m(models.Model):
     title = models.CharField(max_length=200, unique=True)
@@ -30,27 +35,30 @@ class Artical_m(models.Model):
     update_date = models.DateTimeField(auto_now=True)
     create_date = models.DateTimeField(auto_now_add=True,null=True)
     said = models.TextField()
+    content=HTMLField()
     likes = models.ManyToManyField(User,related_name='blog_likes')
     creater = models.ForeignKey(User,on_delete= models.CASCADE,null=True)
     status = models.IntegerField(choices=Status, default=0)
     categories = models.ForeignKey('Category',on_delete=models.CASCADE,blank=True,null=True)
-    In_image = models.ImageField(blank=True)
+    In_image = models.ImageField(blank=True,null=True)
+    subscribe = models.ManyToManyField(User,related_name='subcribe')
     class Meta:
         ordering = ['-create_date']
     def __str__(self):
         return self.said
 
 
-class Profile(models.Model):
-    creater = models.OneToOneField(User, on_delete=models.CASCADE,null=True)
-    bio = models.CharField(max_length=400)
-    profile_image = models.ImageField(blank=True)
-    #twitter_link = blog = models.CharField(max_length=250,null=True,blank=True)
-    instagram = models.CharField(max_length=250,null=True,blank=True)
-    facebook = models.CharField(max_length=250,null=True,blank=True)
-    website_link = models.CharField(max_length=250,null=True,blank=True)
-    def __str__(self):
-        return str(self.creater)
+    def count_likes(self):
+        return len(self.likes)
+
+    def get_absolute_url(self):
+        return reverse('artical_m',args=[str(self.id)])
+
+    objects=models.Manager()
+    posted=PublishedManger()
+    tags =TaggableManager()
+
+
 
 
 class comments(models.Model):
@@ -67,7 +75,9 @@ class comments(models.Model):
     def childrens(self):
         return comments.objects.filter(parent_to=self)
     def get_abslute_url(self):
-        return reverse(self)
+        return reverse('artical_in',args=[self.id])
+
+
 
 
 class Category(models.Model):

@@ -10,90 +10,157 @@
 
 
 {% block content %}
+
+
+<script >
+// AJAX CALL
+$(document).ready(function() {
+$('#like').click(function(){
+    $.ajax({
+             type: "POST",
+             url: "{% url 'artical_m/liked'  %}",
+             data: {'jax_id': $(this).attr('name'),'operation':'likeop','csrfmiddlewaretoken': '{{ csrf_token }}'},
+             dataType: "json",
+             success: function(response) {
+ 					if(response.like=="login requied") {
+ 						$('#jax_like').text("login requied")
+ 					}
+                    else if(response.like){
+                     $( '#like' ).text("liked")
+                    }
+                    else{
+                      $( '#like' ).text("like it")
+                    }
+              }
+                    });
+  })
+  }) ;
+
+
+
+</script>
+<script type="text/javascript">
+	$(document).on('submit','#main_comment',function(e){
+         e.preventDefault();
+		 $.ajax({
+             type: "POST",
+             url: "{% url 'commentsform' artical_m.id %}",
+             data: $(this).serialize(),
+             dataType: "json",
+             success: function(res) {
+                    $('#comment_sec').html(res['form']);
+ 					alert("commentsadd");
+              }
+                    });
+  
+	});
+
+	$(document).on('submit','#response_comment',function(e){
+         e.preventDefault();
+		 $.ajax({
+             type: "POST",
+             url: "{% url 'commentsform' artical_m.id %}",
+             data: $(this).serialize(),
+             dataType: "json",
+             success: function(res) {
+                    $('#comment_sec').html(res['form']);
+ 					alert("commentsadd");
+              }
+                    });
+
+	});
+
+</script>
+
+
 <div class="row">
-<div class="col-md-2">
-</div>
-<div class="col-md-9">
+    <div class="col-md-3">
+        <!-- catgories -->
+
+    <h2 class="display-5"> from - {{ artical_m.categories }} </h2>
+    {% for artical in articals %}
+    {% if artical.categories == artical_m.categories %}
+    <div class="card card-body">
+        <a href="{% url 'artical_m' artical.id %}">
+        <div class="display-5"> {{ artical.title }}</div></a>
+    <div class="display-5">
+        {{ artical.said | truncatewords:20 }}
+    </div>
+
+    </div>
+    {% endif  %}
+    {% endfor %}
+    </div>
+    <div class="col-md-6 p-1">
     <div class="card">
         <div class="card-header">
-            <div>
-                <img src="{{ artical_m.In_image.url }}" class="nub"  > </div>
-        <p class="display-3" style="display:inline-block"> {{ artical_m.title }} </p>
-        <p class="display-4" style="display:inline-block"> auther {{ artical_m.creater.username }}    </p>
+            <span class="display-5 ">tags -</span>
+            {% for tag in tags %}
+            <a class="btn btn-primary" href="{% url 'tags' tag.slug %}" >{{ tag }}</a>
+        </hr>
+            {% endfor %}
+
+                {% if artical_m.In_image %}
+                <img src="{{ artical_m.In_image.url }}" class="img-fluid"  >
+        {% endif %}
+            <p class="display-4" style="display:inline-block"> {{ artical_m.title }} </p>
         <p class="display-5" style="display:inline-block"> {{ artical_m.status  }} </p>
-        <p class="display-5" style="display:inline-block"> create date  {{ artical_m.update_date }}  |</p>
-        <p class="display-5" style="display:inline-block"> {{artical_m.create_date }} </p>
-            </br>
+
+        <p class="display-5" style="display:inline-block"> last date  {{ artical_m.update_date }}  |</p>
+        <p class="display-5" style="display:inline-block"> creation date {{ artical_m.create_date }} </p>
+
+
+        <div>
+            <button href="{% url 'email_share' artical_m.id %}" class="btn btn-primary bt-sm">
+        share via email
+    </button>
+            <div class="fb-share-button" data-href="http://localhost:8000{{ artical_m.get_absolute_url }}" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+
         </div>
-    <div class="card-body">
+            <a href="http://twitter.com/share?url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">Twitter</a>
+            <a href="http://reddit.com/submit?url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">reddit</a>
+            <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">linkedin</a>
+            <a href="https://plus.google.com/share?url=http://localhost:8000{{ artical_m.get_absolute_url }}" class="btn btn-outline-dark">googleplus</a>
+            <a href="http://www.facebook.com/sharer.php?u=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">facebook</a>
+        </div>
+        <div class="card-body">
 
           <p class="display-5" style="display:inline-block"> {{ artical_m.said }} </p>
-
-    </div>
-    </div>
-</div>
-
-</div>
-
-<div class="container">
-    <form class="form" action="{% url 'commentsform' id=artical_m.id  %}" method="post">
-    {% csrf_token %}
-        <textarea type="text" class="form-control" name="text" placeholder="enter comments"></textarea>
-    <button type="submit"  class="btn btn-outline-dark"> done</button>
-</form>
-</div>
-<!--<a href="{% url 'commentsshow' id=artical_m.id  %}" class="btn btn-outline-dark"> comments</a>-->
-    {% for commente in comment %}
-    {% if commente.parent_to == None %}
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-10">
-            <div class="card">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card-body">
-
-                            <img src="{{ commente.comment_to.In_image.url }}" class="rounded-circle" style="width: 40px; height:40px;">
-                            <span class="h2">{{ commente.comment_to.creater.username }}</span>
-                        </div>
-                    </div>
-                    <div class="col-md-10">
-                        <p class="display-4">{{ commente.text }}</p>
-                        <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#replayto{{commente.id}}"
-                                aria-expanded="false">response</button>
-                        <div class="collapse" id="replayto{{commente.id}}">
-                            <form class="form" action="{% url 'commentsform' id=artical_m.id  %}" method="post">
-                                {% csrf_token %}
-                                <textarea type="text" class="form-control" name="text" placeholder="enter comments"></textarea>
-                                <input type="hidden" name="parent_to" value="{{ commente.id }}">
-                                <button type="submit"  class="btn btn-outline-dark"> done</button>
-                            </form>
-                            {% for commentrep in commente.childrens %}
-                                    <div class="row">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-3">
-                                            <div class="card-body">
-                                                <img src="{{ commente.comment_to.In_image.url }}" class="rounded-circle" style="width: 40px; height:40px;">
-                                                <span class="h2">{{ commentrep.comment_to.creater.username }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-7">
-                                           <div class="card-body">
-                                               <div class="display-5">
-                                                   {{ commentrep.text }}
-                                               </div>
-                                           </div>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {{ artical_m.content | safe }}
         </div>
     </div>
-{% endif %}
-{% endfor %}
+
+<div id="comment_sec">
+    {% include 'comments.html' %}
+
+</div>
+    </div>
+
+    <div class="col-md-3">
+        <p id="jax_like"></p>
+
+        <button class="btn" name="{{ artical_m.id }}" id="like" type="button">{% if like_status %} liked
+            {% else %}
+            like it {% endif %}
+        </button>
+
+
+         <div class="card" >
+        <div class="card-header">
+            {% if artical_m.creater.profile_to.profile_image.url %}
+            <img src="{{ artical_m.creater.profile_to.profile_image.url }}" class="img-fluid rounded-circle" style="width: 60px; height:60px;">
+            {% endif %}
+            <span class="display-5">name -{{ artical_m.creater.username }}</span>
+        </div>
+        <div class="card-body">
+            <p class="display-5"> {{ artical_m.creater.profile_to.bio }} </p>
+            <a href="{{ artical_m.creater.profile_to.instagram }}"> instagram </a>
+                        <a href="{{ artical_m.creater.profile_to.instagram }}" class="btn"> instagram </a>
+        </div>
+    </div>
+    </div>
+</div>
+</body>
 </body>
 </html>
 {% endblock content %}

@@ -1,19 +1,26 @@
 from django.shortcuts import render,reverse
-from .forms import HeadForm,ContentsForm,Artical_f,comments_F,Category_Form
-from django.shortcuts import redirect,HttpResponseRedirect
-from .models import Head,Artical_m,comments,Category
-from django.http import Http404,HttpResponse
+from .forms import HeadForm,ContentsForm,Artical_f,comments_F,Category_Form,Email_Share
+from django.shortcuts import redirect,HttpResponseRedirect,get_object_or_404
+from .models import Head,Artical_m,comments,Category,TaggableManager
+from taggit.models import Tag
+from django.http import Http404,HttpResponse,JsonResponse
+from django.template.loader import render_to_string
+from django.db.models import Q
+import json
+from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 from . import models
 from django.views.generic import DetailView,ListView,FormView
+from django.core.mail import send_mail,EmailMessage
 
 def first(request):
     return render(request,'base.html')
 
 
-def heade(request):
-    return render(request, 'base.html')
+def heade(request,id):
+
+    return render(request, 'base.html',{'id':id})
 
 
 def create_head(request):
@@ -55,7 +62,7 @@ def show_contents(request, head_id):
     return render(request, 'show_content.html', context)
 
 def show_articals(request):
-    articals = Artical_m.objects.filter(status=1).all()
+    articals = Artical_m.posted.all()
     #else:
         #articals = Artical_m.objects.filter(status=1).all()
         #articals_p = Artical_m.objects.filter(creater=request.user).all()
@@ -63,7 +70,17 @@ def show_articals(request):
         #articals = [ artical  for artical in articals_p if artical.creater== request.user]
         #articals.extend(articals_p)
     return render(request , 'show_content.html',{'articals':articals})
+@login_required
+def Dashbroad(request):
+    articals = Artical_m.objects.all().filter(creater=request.user)
 
+    #else:
+        #articals = Artical_m.objects.filter(status=1).all()
+        #articals_p = Artical_m.objects.filter(creater=request.user).all()
+        #articals_p = Artical_m.objects.filter(creater= request.user)
+        #articals = [ artical  for artical in articals_p if artical.creater== request.user]
+        #articals.extend(articals_p)
+    return render(request , 'dashboard.html',{'articals':articals})
 
 @login_required
 def show_drafts(request):
@@ -85,8 +102,9 @@ def create_artical(request):
         form = Artical_f(request.POST,request.FILES)
         if form.is_valid():
             new_artical=form.save(commit=False)
-            new_artical.creater=request.user
+            new_artical.creater = request.user
             new_artical.save()
+            form.save_m2m()
             return redirect('show_articals')
     context = {'form': form}
     return render(request,'create_artical.html',context)
@@ -94,15 +112,15 @@ def create_artical(request):
 
 @login_required
 def delete_artical(request,artical_id):
-
     post= Artical_m.objects.get(id=artical_id)
     owner_topic_matcher(post,request.user)
     post.delete()
-    return redirect('heade')
+    return redirect('show_articals')
 
-
+@login_required
 def edits_artical(request,articals_id):
     artica=Artical_m.objects.get(id=articals_id)
+    owner_topic_matcher(artica,request.user)
     if request.method !='POST':
         form=Artical_f(instance=artica)
     else:
@@ -120,25 +138,36 @@ def owner_topic_matcher(topic,user):
 
 
 # comments ------>>>>
-@login_required
+#@login_required
 def comments_V(request,id):
+    print("commante here")
     artical= Artical_m(id=id)
-    #if request.method!="POST":
-     #   form = comments_F()
-    form = comments_F(request.POST)
-
-    if form.is_valid():
-        new_comment = form.save(commit=False)
-        parent_to = request.POST.get('parent_to')
-        if parent_to:
-            new_comment.parent_to = comments.objects.get(id=parent_to)
-        new_comment.comment_to = artical
-        new_comment.commenter = request.user
-        new_comment.save()
-        print(new_comment.parent_to)
-        return redirect('/artical_m/'+str(id))
-    #context={"form":form,'artical':artical}
-    return HttpResponse(" its not working")
+        #form.text=request.POST.get('comment_text')
+        #print(form.text)
+    if request.method=='POST':
+        form = comments_F(request.POST or None)
+        if form.is_valid():
+            print("its valid form")
+            #if request.is_ajax:
+             #   form.text = request.POST.get('comment_text')
+            new_comment = form.save(commit=False)
+            parent_to = request.POST.get('parent_to')
+            if parent_to:
+                new_comment.parent_to = comments.objects.get(id=parent_to)
+            new_comment.comment_to = artical
+            new_comment.commenter = request.user
+            new_comment.save()
+            print(new_comment.parent_to)
+            #return redirect('/artical_m/'+str(id))
+            context={"form":form,'artical':artical}
+            if request.is_ajax:
+                comment = comments.objects.filter(comment_to=artical).all()
+                context={"comment":comment}
+                html=render_to_string('comments.html',context,request=request)
+                return JsonResponse({'form':html})
+        else:
+            print("its valid not form")
+            return HttpResponse(" its not working")
 
 
 class CommentsList(ListView):
@@ -158,9 +187,47 @@ class CommentsList(ListView):
 
 def artical_in(request,id):
     artical_m = Artical_m.objects.get(id=id)
+    articals = Artical_m.objects.all()
+    tags=artical_m.tags.all()
     comment = comments.objects.filter(comment_to=artical_m).all()
-    context = {'artical_m': artical_m,'comment':comment}
+    like_status=False
+    if request.user.is_authenticated:
+        if  artical_m.likes.filter(id=request.user.id):
+            like_status=True
+    context = {'artical_m': artical_m,'comment':comment,'articals':articals,'tags':tags,'like_status':like_status}
     return render(request, 'artical_in.html', context)
+def liked(request):
+    id=1
+    print("lol1")
+    if not request.user.is_authenticated:
+        like="login requied"
+        ctx = {"like": like}
+        return HttpResponse(json.dumps(ctx), content_type='application/json')
+    if request.method=="POST":
+        print("lol")
+        if request.POST.get("operation")== "likeop" and request.is_ajax():
+            jax_id=request.POST.get("jax_id")
+            artical_m=Artical_m.objects.get(id=jax_id)
+            if artical_m.likes.filter(id=request.user.id):
+                like=False
+                artical_m.likes.remove(request.user)
+            else:
+                like=True
+                artical_m.likes.add(request.user)
+            artical_m.save()
+            ctx = { "like": like}
+            return HttpResponse(json.dumps(ctx), content_type='application/json')
+    artical_m = Artical_m.objects.get(id=id)
+    print(request.user)
+    #we are not using form so we have to user add() method
+    if artical_m.likes.filter(id=request.user.id):
+        artical_m.likes.remove(request.user)
+    else:
+        artical_m.likes.add(request.user)
+    artical_m.save()
+    return redirect(artical_m.get_absolute_url())
+
+
 
 
 class Category_add(FormView):
@@ -177,4 +244,45 @@ class Category_add(FormView):
         form.save()
         return HttpResponseRedirect('create_artical')
 
+#--------> search <-------
+class Search(ListView):
+    template_name = 'serach_result.html'
+    context_object_name = 'result'
+    model= Artical_m
+    def get_queryset(self):
+        rs = super().get_queryset()
+        qu=self.request.GET.get('st')
+        rs=self.model.posted.all().filter(Q(title__contains=qu))
+        return rs
 
+
+class tags(ListView):
+    template_name = 'tagsh.html'
+    context_object_name = 'result'
+    model= Artical_m
+    def get_queryset(self):
+        rs = super().get_queryset()
+        qu=self.kwargs['slug']
+        tagO=get_object_or_404(Tag,slug=qu)
+        rs=self.model.objects.filter(tags=tagO)
+        print(rs)
+        return rs
+
+def Email_Share_V(request,id):
+    artical=Artical_m.objects.get(id=id)
+    send=False
+    if request.method !='POST':
+        form=Email_Share()
+    else:
+        form=Email_Share(request.POST)
+        if form.is_valid():
+            # share ....
+            artical_url= request.build_absolute_uri(artical.get_absolute_url())
+            data=form.cleaned_data
+            subject = f"{data['Email']} recommends you read " f"{artical.title}"
+            massage = f"Read {artical.title} at {artical_url} \n\n " f"{data['Comments']}"
+            send_mail(subject=subject,message=massage,from_email='devendersandhu001@gmail.com',
+                      recipient_list=[data['To']],fail_silently=False)
+            send =True
+    context={'form':form,'artical':artical,"send":send}
+    return render(request,'share_email.html',context)

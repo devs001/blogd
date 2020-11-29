@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% extends 'home.html' %}
+<html lang="en">
+{% load socialaccount %}
+
+{% load bootstrap4 %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>login_form</title>
+</head>
+<body id="login">
+{% block content %}
+
+<form action="{% url 'users:login' %}" method="post" class="form">
+    {% bootstrap_form form %}
+    {% csrf_token %}
+    <button name="submit" class="btn btn-primary">log in</button>
+    <input type="hidden" value="{% url 'show_articals' %}" name="next" />
+</form>
+<a href="{% provider_login_url 'google' %}" class="btn btn-primary"> login with google account </a>
+
+{% endblock content %}
+</body>
+</html>

@@ -14,11 +14,29 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth import views as auth_v
+
 from django.urls import path, include
+from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
+from artical.sitemaps import Artical_sitemap
+from django.contrib.sitemaps.views import sitemap
+
+sitemaps = {
+ 'articals': Artical_sitemap,
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('artical.urls')),
-    path('users',include('users.urls'))
-]
+    path('users',include('users.urls')),
+    path('tinymce/', include('tinymce.urls')),
+    path('accounts/',include('allauth.urls')),
+    path('reset/<uidb64>/<token>/', auth_v.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
+    path('password_change_done/', auth_v.PasswordChangeDoneView.as_view(), name='password_change_done'),
+    path('password_reset_done', auth_v.PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap')
+
+              ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

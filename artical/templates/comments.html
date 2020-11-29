@@ -1,0 +1,54 @@
+<form id="main_comment" class="form" method="post">
+    {% csrf_token %}
+        <textarea id="comment_text" type="text" class="form-control" name="text" placeholder="enter comments"></textarea>
+    <button type="submit" name="submit" class="btn btn-outline-dark"> done</button>
+    </form>
+
+
+        <div class="card">
+            {% for commente in comment %}
+            {% if commente.parent_to == None %}
+            <div class="card-header">
+                {% if commente.commenter.profile_to.profile_image.url %}
+                <img src="{{ commente.commenter.profile_to.profile_image.url }}" class="rounded-circle img" style="width: 40px; height:40px;">
+                {% endif %}
+                <span class="h2">{{ commente.commenter.username }}</span>
+            </div>
+
+            <div class="card-body">
+                <p class="display-5">{{ commente.text }}</p>
+                <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse"  data-target="#replayto{{commente.id}}"
+                        aria-expanded="false">response</button>
+                <div class="collapse" id="replayto{{commente.id}}">
+                    <form class="form" action="" method="post" id="response_comment">
+                        {% csrf_token %}
+                        <textarea type="text" class="form-control" name="text" placeholder="enter comments"></textarea>
+                        <input type="hidden" name="parent_to" value="{{ commente.id }}">
+                        <button type="submit"  class="btn btn-outline-dark"> done</button>
+                    </form>
+                    <div class="row">
+                   {% for commentrep in commente.childrens %}
+                        <div class="col-md-2"></div>
+                        <div class="col-md-10">
+                            <div class="card">
+                            <div class="card-body">
+                                {% if commentrep.commenter.profile_to.profile_image.url %}
+                                <img src="{{ commentrep.commenter.profile_to.profile_image.url }}" class="rounded-circle" style="width: 40px; height:40px;">
+                                {% endif %}
+                                <span class="h2">{{ commentrep.commenter.username }}</span>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="display-5">
+                            {{ commentrep.text }}
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+        </div>

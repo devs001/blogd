@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends 'home.html' %}
+{% load bootstrap4 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>serch_result</title>
+</head>
+<body>
+{% block content %}
+
+
+<div class="card card-body">
+    <form action="{% url 'email_share' artical.id  %}" method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-outline-light"> okay </button>
+    </form>
+</div>
+
+</body>
+</html>
+
+{% endblock content %}

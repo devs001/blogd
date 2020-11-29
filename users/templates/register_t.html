@@ -16,8 +16,9 @@
 
 </div>
 <form action="{% url 'users:register' %}"
-      class="form" method="post" >
+      class="form" method="post" enctype="multipart/form-data" >
     {% csrf_token %}
+    {% bootstrap_form Eform %}
     {% bootstrap_form form %}
     <button type="submit" class="btn btn-outline-dark">
         here singup</button>

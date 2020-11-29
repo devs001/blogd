@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from django.contrib import messages
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,7 +26,7 @@ SECRET_KEY = '@_1hzhu*j*c(9llt4=8wzw^-yklthsdd)o%r&2n_a6(5bca83!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 SITE_ID= 1
 
 # Application definition
@@ -188,6 +187,7 @@ AUTHENTICATION_BACKENDS =(
 )
 SITE_ID=1
 LOGIN_REDIRECT_URL='first'
+LOGOUT_REDIRECT_URL='first'
 LOGOUT_URL = 'first'
 
 SOCIALACCOUNT_PROVIDERS={
@@ -199,5 +199,9 @@ SOCIALACCOUNT_PROVIDERS={
     }
 }
 
-
+if os.getcwd() == '/app':
+    import dj_database_url
+    DATABASES = {
+    'default': dj_database_url.config(default='postgres://localhost')
+    }
 

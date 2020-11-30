@@ -191,7 +191,7 @@ AUTHENTICATION_BACKENDS =(
     #'social.backends.twitter.TwitterOAuth',
     #'social.contrib.auth.backends.ModelsBackend'
 )
-SITE_ID=2
+SITE_ID=1
 LOGIN_REDIRECT_URL='first'
 LOGOUT_REDIRECT_URL='first'
 LOGOUT_URL = 'first'

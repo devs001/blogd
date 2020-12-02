@@ -36,7 +36,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', auth_v.PasswordResetConfirmView.as_view(),name='password_reset_confirm'),
     path('password_change_done/', auth_v.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('password_reset_done', auth_v.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap')
-
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},name='django.contrib.sitemaps.views.sitemap'),
+    path('reset/done/', auth_v.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
               ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

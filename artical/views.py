@@ -111,15 +111,15 @@ def create_artical(request):
 
 
 @login_required
-def delete_artical(request,artical_id):
-    post= Artical_m.objects.get(id=artical_id)
+def delete_artical(request,artical_slug):
+    post= Artical_m.objects.get(id=artical_slug)
     owner_topic_matcher(post,request.user)
     post.delete()
     return redirect('show_articals')
 
 @login_required
-def edits_artical(request,articals_id):
-    artica=Artical_m.objects.get(id=articals_id)
+def edits_artical(request,articals_slug):
+    artica=Artical_m.objects.get(id=articals_slug)
     owner_topic_matcher(artica,request.user)
     if request.method !='POST':
         form=Artical_f(instance=artica)
@@ -185,8 +185,8 @@ class CommentsList(ListView):
         return qs.filter(comment_to=artical,)
 
 
-def artical_in(request,id):
-    artical_m = Artical_m.objects.get(id=id)
+def artical_in(request,slug):
+    artical_m = Artical_m.objects.get(slug=slug)
     articals = Artical_m.objects.all()
     tags=artical_m.tags.all()
     comment = comments.objects.filter(comment_to=artical_m).all()

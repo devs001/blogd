@@ -81,7 +81,7 @@ $('#like').click(function(){
     {% for artical in articals %}
     {% if artical.categories == artical_m.categories %}
     <div class="card card-body">
-        <a href="{% url 'artical_m' artical.id %}">
+        <a href="{% url 'artical_m' artical.slug %}">
         <div class="display-5"> {{ artical.title }}</div></a>
     <div class="display-5">
         {{ artical.said | truncatewords:20 }}
@@ -137,9 +137,9 @@ $('#like').click(function(){
     </div>
 
     <div class="col-md-3">
-        <p id="jax_like"></p>
+        <p class="display-4" id="jax_like"></p>
 
-        <button class="btn" name="{{ artical_m.id }}" id="like" type="button">{% if like_status %} liked
+        <button class="btn btn-success" name="{{ artical_m.id }}" id="like" type="button">{% if like_status %} liked
             {% else %}
             like it {% endif %}
         </button>
@@ -150,7 +150,8 @@ $('#like').click(function(){
             {% if artical_m.creater.profile_to.profile_image.url %}
             <img src="{{ artical_m.creater.profile_to.profile_image.url }}" class="img-fluid rounded-circle" style="width: 60px; height:60px;">
             {% endif %}
-            <span class="display-5">name -{{ artical_m.creater.username }}</span>
+            <span class="display-5">author -</span>
+            <span class="display-4">{{ artical_m.creater.username }}</span>
         </div>
         <div class="card-body">
             <p class="display-5"> {{ artical_m.creater.profile_to.bio }} </p>

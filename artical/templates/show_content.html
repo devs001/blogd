@@ -1,7 +1,9 @@
 {% extends 'home.html' %}
 {% load static %}
 {% block content %}
-<div class="col-6">
+ <div class="row">
+     <div class="col-md-3"></div>
+<div class="col-md-6">
 <div class="card" id="show">
     {% for artical in articals %}
     <div class="card-header ">
@@ -20,22 +22,21 @@
     <div class="card-body">
         <p class="">{{ artical.slug}}</p>
         <short> {{ artical.said | slice:" 20 :200" }} </short>
-        <a href="{% url 'artical_m' artical.id %}" class="btn btn-outline-dark"> see full </a>
+        <a href="{% url 'artical_m' artical.slug %}" class="btn btn-outline-dark"> see full </a>
     </div>
 {% empty %}
     <a   class="btn btn-primary" href="{% url 'create_artical' %}">create_something</a>
 {% endfor %}
     </div>
-</div>
     {% if user.is_authenticated %}
     <a class="btn btn-outline-dark" href="{% url 'show_drafts' %}">
         show drafts </a>
     {% endif %}
+</div>
 
-{% block drafts %}
 
-{% endblock drafts %}
 
+ </div>
 
 
 {% endblock content %}

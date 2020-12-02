@@ -5,16 +5,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>register_temlates</title>
+    <title>register</title>
 </head>
 <body>
 {% block content %}
-<div class="jumbotron">
-    <div class="display-1">
-        register and write
-    </div>
+<div class="row">
+<div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-head">
+                <div class="jumbotron">
+                    <h1 class="display-2 al-center">sign up</h1>
+                </div>
+            </div>
 
-</div>
 <form action="{% url 'users:register' %}"
       class="form" method="post" enctype="multipart/form-data" >
     {% csrf_token %}
@@ -24,6 +28,11 @@
         here singup</button>
     <input type="hidden" name="next" value="{% url 'show_articals' %}">
 </form>
+        </div>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
 {% endblock content %}
 </body>
 </html>

@@ -52,7 +52,7 @@ class Artical_m(models.Model):
         return len(self.likes)
 
     def get_absolute_url(self):
-        return reverse('artical_m',args=[str(self.id)])
+        return reverse('artical_m',args=[self.slug])
 
     objects=models.Manager()
     posted=PublishedManger()

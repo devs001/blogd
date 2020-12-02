@@ -8,8 +8,8 @@
         <h1 class="text-center"> drafts- {{artical.title}} </h1>
         <h2 class="text-center">artical by- {{artical.creater.username}}</h2>
         <h2 class="text-center">artical by- {{artical.status}}</h2>
-         <a class="btn btn-warning" href="{% url 'delete_artical' artical.id %}"> adelete it - {{artical.title}}</a>
-         <a class="btn btn-primary" href="{% url 'edits_artical' artical.id %}"> edit it - {{artical.title}}</a>
+         <a class="btn btn-warning" href="{% url 'delete_artical' artical.slug %}"> adelete it - {{artical.title}}</a>
+         <a class="btn btn-primary" href="{% url 'edits_artical' artical.slug %}"> edit it - {{artical.title}}</a>
     </div>
     <div class="card-body">
         <p class="">{{ artical.slug}}</p>

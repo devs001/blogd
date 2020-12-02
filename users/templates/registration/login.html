@@ -9,10 +9,21 @@
     <meta charset="UTF-8">
     <title>login_form</title>
 </head>
-<body id="login">
+
 {% block content %}
 
-<form action="{% url 'users:login' %}" method="post" class="form">
+
+<body id="login">
+<div class="row">
+<div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-head">
+                <div class="jumbotron">
+                    <h1 class="display-2">login</h1>
+                </div>
+            </div>
+            <div class="card-body"><form action="{% url 'users:login' %}" method="post" class="form">
     {% bootstrap_form form %}
     {% csrf_token %}
     <button name="submit" class="btn btn-primary">log in</button>
@@ -22,6 +33,13 @@
 
 <br>
 <a href="{% url 'users:reset_password'  %}" class="btn"> forget password ? </a>
-{% endblock content %}
+            </div>
+            </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
 </body>
+
+
+{% endblock content %}
 </html>

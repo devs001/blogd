@@ -59,7 +59,7 @@ TINYMCE_DEFAULT_CONFIG={
     "theme": "silver",
     "height": 500,
     "menubar": True,
-    "cleanup_on_startup":True,
+    "cleanup_on_startup":False,
     "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor," 
                "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
                "code,help,wordcount",

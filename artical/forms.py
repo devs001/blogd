@@ -27,7 +27,7 @@ class Artical_f(forms.ModelForm):
     class Meta:
         model = Artical_m
         fields = ['title','slug','said'
-                  ,'status','In_image','categories','tags']
+                  ,'status','In_image','categories','tags','content']
 
 class comments_F(forms.ModelForm):
     class Meta:

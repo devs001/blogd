@@ -102,6 +102,7 @@ def create_artical(request):
         form = Artical_f(request.POST,request.FILES)
         if form.is_valid():
             new_artical=form.save(commit=False)
+            print(request.POST.get("content"))
             new_artical.creater = request.user
             new_artical.save()
             form.save_m2m()
@@ -118,8 +119,8 @@ def delete_artical(request,artical_slug):
     return redirect('show_articals')
 
 @login_required
-def edits_artical(request,articals_slug):
-    artica=Artical_m.objects.get(id=articals_slug)
+def edits_artical(request,slug):
+    artica=Artical_m.objects.get(slug=slug)
     owner_topic_matcher(artica,request.user)
     if request.method !='POST':
         form=Artical_f(instance=artica)

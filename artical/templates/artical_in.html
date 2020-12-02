@@ -94,9 +94,9 @@ $('#like').click(function(){
     <div class="col-md-6 p-1">
     <div class="card">
         <div class="card-header">
-            <span class="display-5 ">tags -</span>
+            <span class="blockquote">tags </span>
             {% for tag in tags %}
-            <a class="btn btn-primary" href="{% url 'tags' tag.slug %}" >{{ tag }}</a>
+            <button class="btn btn-secondary btn-sm" style="border-width:small; " href="{% url 'tags' tag.slug %}" >{{ tag }}</button>
         </hr>
             {% endfor %}
 
@@ -125,8 +125,8 @@ $('#like').click(function(){
         </div>
         <div class="card-body">
 
-          <p class="display-5" style="display:inline-block"> {{ artical_m.said }} </p>
-            {{ artical_m.content | safe }}
+          <p class="blockquote" style="display:inline-block; font-family: 'Noto Sans JP ', sans-serif black;  "> {{ artical_m.said }} </p>
+            <article style="font-family: 'Noto Sans JP', sans-serif;"> {{ artical_m.content | safe }} </article>
         </div>
     </div>
 

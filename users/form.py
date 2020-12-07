@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Profile
+from .models import Profile,ChatRel
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField()
@@ -21,3 +21,9 @@ class Profile_f(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('bio','profile_image','instagram','website_link')
+
+class ChatForm(forms.ModelForm):
+
+    class Meta:
+        model = ChatRel
+        fields = ('chatText',)

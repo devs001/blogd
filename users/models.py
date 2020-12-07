@@ -11,3 +11,21 @@ class Profile(models.Model):
     website_link = models.URLField(max_length=250,null=True,blank=True)
     def __str__(self):
         return str(self.creater)
+
+class ChatRel(models.Model):
+    sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name='sender')
+    receiver=models.ForeignKey(User,on_delete=models.CASCADE,related_name='receiver')
+    chatText=models.CharField(max_length=1000)
+    send_time=models.DateTimeField(auto_now_add=True)
+    receive_time=models.DateTimeField(null=True,blank=True)
+    class Meta:
+        ordering = ['-send_time']
+
+    def __str__(self):
+        return str(self.chatText)
+
+
+    def relation(self):
+        return [self.sender,self.receiver]
+
+

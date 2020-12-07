@@ -23,6 +23,7 @@ class TinyMce(TinyMCE):
         return False
 
 class Artical_f(forms.ModelForm):
+    said= forms.Textarea()
     content=forms.CharField(widget=TinyMCE(attrs={'required':False,"cols":30,'rows':10}))
     class Meta:
         model = Artical_m

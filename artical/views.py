@@ -102,7 +102,6 @@ def create_artical(request):
         form = Artical_f(request.POST,request.FILES)
         if form.is_valid():
             new_artical=form.save(commit=False)
-            print(request.POST.get("content"))
             new_artical.creater = request.user
             new_artical.save()
             form.save_m2m()
@@ -130,7 +129,7 @@ def edits_artical(request,slug):
             edited_artical=form.save(commit=False)
             edited_artical.creater = request.user
             edited_artical.save()
-            return redirect('heade')
+            return redirect(artica.get_absolute_url())
     context = {'form':form,'artica':artica}
     return render(request,'edit_content.html',context)
 def owner_topic_matcher(topic,user):

@@ -4,7 +4,7 @@ from  .views import artical_in
 from django.conf.urls.static import static
 from django.conf import settings
 from .feeds import LastestArticalFeed
-
+print("gfguyggyuguyg")
 urlpatterns = [
     path('', views.first , name='first'),
     path('heade', views.heade, name='heade'),

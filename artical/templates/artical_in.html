@@ -125,7 +125,7 @@ $('#like').click(function(){
         </div>
         <div class="card-body">
 
-          <p class="blockquote" style="display:inline-block; font-family: 'Noto Sans JP ', sans-serif black;  "> {{ artical_m.said }} </p>
+          <p class="blockquote" style="display:inline-block; font-family: 'Noto Sans JP ', sans-serif black;  "> {{ artical_m.said | safe }} </p>
             <article style="font-family: 'Noto Sans JP', sans-serif;"> {{ artical_m.content | safe }} </article>
         </div>
     </div>
@@ -154,6 +154,7 @@ $('#like').click(function(){
             <span class="display-4">{{ artical_m.creater.username }}</span>
         </div>
         <div class="card-body">
+            <a href="{% url 'users:chatroom' artical_m.creater.username %}"> instagram </a>
             <p class="display-5"> {{ artical_m.creater.profile_to.bio }} </p>
             <a href="{{ artical_m.creater.profile_to.instagram }}"> instagram </a>
                         <a href="{{ artical_m.creater.profile_to.instagram }}" class="btn"> instagram </a>

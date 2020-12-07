@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django.contrib.sitemaps',
     'tinymce',
+    'channels'
     #'whitenoise.runserver_nostatic', # new!
 
     #'social_django',
@@ -59,15 +60,18 @@ TINYMCE_DEFAULT_CONFIG={
     "theme": "silver",
     "height": 500,
     "menubar": True,
-    "cleanup_on_startup":False,
+    "cleanup_on_startup":True,
     "plugins": "advlist,autolink,lists,link,image,charmap,print,preview,anchor," 
                "searchreplace,visualblocks,code,fullscreen,insertdatetime,media,table,paste,"
                "code,help,wordcount",
-    "toolbar": "undo redo | formatselect | "
+    "toolbar": "undo redo | formatselect | fullscreen preview"
                "bold italic backcolor | alignleft aligncenter "
                "alignright alignjustify | bullist numlist outdent indent | "
                "removeformat | help",
     'statusbar':True,
+    'file_browser_callback' : "myFileBrowser",
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
 }
 
 MIDDLEWARE = [
@@ -105,7 +109,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'blogd.wsgi.application'
-
+ASGI_APPLICATION= 'blogd.routing.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 

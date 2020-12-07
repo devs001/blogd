@@ -8,6 +8,7 @@ app_name='users'
 urlpatterns = [
     path('',include('django.contrib.auth.urls')),
     path('register',views.register,name='register'),
+    path('chatroom/<str:receiver_username>', views.ChatRoom, name='chatroom'),
     path('change_password/',auth_v.PasswordChangeView.as_view(),name='password_password'),
     path('password_change_done/', auth_v.PasswordChangeDoneView.as_view(), name='password_change_done'),
     path('reset_password', auth_v.PasswordResetView.as_view(), name='reset_password'),

@@ -26,7 +26,7 @@ from django.contrib.sitemaps.views import sitemap
 sitemaps = {
  'articals': Artical_sitemap,
 }
-
+print("blogd")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('artical.urls')),

@@ -96,7 +96,7 @@ $('#like').click(function(){
         <div class="card-header">
             <span class="blockquote">tags </span>
             {% for tag in tags %}
-            <button class="btn btn-secondary btn-sm" style="border-width:small; " href="{% url 'tags' tag.slug %}" >{{ tag }}</button>
+            <button class="btn-sm btn-secondary " style="border-width:small; " href="{% url 'tags' tag.slug %}" >{{ tag }}</button>
         </hr>
             {% endfor %}
 
@@ -111,7 +111,7 @@ $('#like').click(function(){
 
 
         <div>
-            <button href="{% url 'email_share' artical_m.id %}" class="btn btn-primary bt-sm">
+            <button href="{% url 'email_share' artical_m.id %}" class="bt-sm btn-primary ">
         share via email
     </button>
             <div class="fb-share-button" data-href="http://localhost:8000{{ artical_m.get_absolute_url }}" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>

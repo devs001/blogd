@@ -25,22 +25,12 @@ def register(request):
 
 
 def ChatRoom(request,receiver_username):
-    print("gogogogogf")
-    def filter_chat(x):
-        print("inside the function")
-        print(x.type())
-        for chat in x:
-            print("inside the loop")
-            if chat.receiver == receiver_username and chat.sender==request.user:
-                return True
-            elif chat.receiver == request.user and chat.sender==receiver_username:
-                return True
-            else:
-                return False
-
-
     if request.method != 'POST':
+        users=User.objects.all()
+
         Receiver=User.objects.get(username=receiver_username)
+        print()
+        print("----------")
         chats= ChatRel.objects.filter(Q(sender=request.user.id , receiver = Receiver.id ))
         chatR = ChatRel.objects.filter(Q(sender=Receiver.id, receiver=request.user.id))
         print("ppppp")
@@ -59,6 +49,6 @@ def ChatRoom(request,receiver_username):
             form.save_m2m()
             print(receiver_username+" <----")
             return HttpResponseRedirect(receiver_username)
-    context = {'form': form,'chats':chate,'receiver_username':receiver_username}
+    context = {'form': form,'chats':chate,'receiver_username':receiver_username,'users':users,'receiver':Receiver}
     return render(request,'chatroom.html',context)
     

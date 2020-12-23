@@ -1,0 +1,73 @@
+
+<body data-spy="scroll" data-target="#menu" data-offset="0" >
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark" >
+        <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'first' %}">heade </a>
+
+        <button class="navbar-toggler" type="button"
+        data-target="#menu" data-toggle="collapse">
+
+            <span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="menu">
+                 <ul class="navbar-nav ml-auto">
+                     <li class="nav-item">
+                        <a href="{% url 'show_articals' %}" class="nav-link" >show</a></li>
+                     <li class="nav-item">
+                        <a href="#artical" class="nav-link">
+                             create artical </a></li>
+                     <li>
+                     <form class="form" method="get" action="{% url 'serach' %}" >
+
+                         <input style="" name="st" class="form-control" type="text" placeholder="serach title by ">
+
+                         <!--<button style="display:block-inline; " class="btn btn-primary btn-sm" type="submit" > serach </button>
+                     --> </form></li>
+                     {% if user.is_authenticated %}
+                     {% else %}
+                     <li class="nav-item">
+                          <a href="{% url 'users:register' %}" class="nav-link">register</a> </li>
+                     <li class="nav-item">
+                          <a href="{% url 'users:login' %}" class="nav-link"> login </a></li>
+                     <li class="nav-item">
+
+                     {% endif %}
+                  </ul>
+            </div>
+            {% if user.is_authenticated %}
+            <div id="profile" class="dropdown-toggle" data-toggle="dropdown" data-target="#profile-content" style="bg-color:black;">
+                     {% if user.socialaccount_set.all.0.extra_data.picture %}
+                     <img src="{{ user.socialaccount_set.all.0.extra_data.picture }}" class="rounded-circle" style="height:30px; width:30px">
+                     {% else %}
+                    {% if user.profile_to.profile_image.url %}
+                     <img src="{{  user.profile_to.profile_image.url }}" class="rounded-circle" style="height:30px; width:30px">
+                     {% else %}
+                <button class="btn btn-primary dropdown-toggle" datatoggle="dropdown">
+                <span class="caret"></span>
+                </button>
+                         {% endif %}
+                     {% endif %}
+                </div>
+                     <div class="dropleft" id="profile-content">
+                          <ul class="dropdown-menu bg-dark" style="text-align:center;">
+                                                   <li><br></li>
+                              <li>{% if user.socialaccount_set.all.0.extra_data.picture %}
+                     <img src="{{ user.socialaccount_set.all.0.extra_data.picture }}" class="rounded-circle" style="height:60px; width:60px">
+                     {% else %}
+                    {% if user.profile_to.profile_image.url %}
+                     <img src="{{  user.profile_to.profile_image.url }}" class="rounded-circle" style="height:60px; width:60px">
+                         {% endif %}
+                     {% endif %}
+                              </li>
+                              <li style="color:white; padding:4rem;">{{ user.first_name}} {{ user.last_name}}</li>
+                      <li><br> </li>
+                     <li style="padding:1rem;"> <a href="{% url 'create_artical' %}" >
+                             create artical     </a></li>
+                     <li style="padding:1rem;"> <a href="{% url 'dashbroad' %}" >
+                             dashbroad    </a></li>
+                     <li style="padding:1rem;"  ><a href="{% url 'users:reset_password' %}" > reset password</a></li>
+                         <li style="padding:1rem;"><a href="{% url 'users:logout' %}" > log out</a></li>
+                          </ul>
+                     </div>
+            {% endif %}
+        </div>
+</nav>

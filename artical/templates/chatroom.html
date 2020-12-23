@@ -1,21 +1,30 @@
 {% extends 'home.html' %}
 {% load bootstrap4 %}
-{% block content %}
+{% load static %}
+{% block chats %}
+
+
 <script>
 $(document).ready(function() {
 
-var url= 'ws://'+window.location.host+'/ws/userschatroom/'+'{{request.user.username}}/';
+var url= 'ws://'+window.location.host+'/ws/userschatroom/'+'{{request.user.username}}/'+'{{receiver_username}}/';
 
 var chatsocket = new WebSocket(url);
 
 chatsocket.onmessage = function(e){
-
+         alert('indi on massage');
         var data = JSON.parse(e.data);
         var massage = data.massage;
-        alert("comd"+massage);
         var $chat = $('#chat');
-        $chat.append('<div ><h2 class="blockqoute chatAroud" > <span class="chatbubble">'+  massage +'</span> </h2></div>');
+        if(massage.type=='chat_massage'){
+        var massage_text =massage.massage;
+        $('.sending').html("");
+        $chat.append('<div class="text-right">'+ '<div class="card card-body border-success">'+ '<span>'+ massage.sender+ '</span> <span>' +massage.send_time+'</span><h2 class="blockqoute  text-success ">'   +massage_text+ '</h2></div></div>');
+        }
+        else{
 
+        $chat.append('<div class="sending"> <div class="card card-body border-success  text-right"> <span> Me </span> <span>loading.....</span><h2 class="blockqoute  text-success ">   massage </h2></div></div>');
+        }
 };
 chatsocket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
@@ -25,53 +34,101 @@ chatsocket.onclose = function(e) {
 $('#chatSubmit').click(function(){
 
         var input = $('#chatText').val();
-        alert(input);
+        $('#chat').append('<div class="sending"> <div class="card card-body border-success  text-right"> <span> Me </span> <span>loading.....</span><h2 class="blockqoute  text-success "> '  +input+ '</h2></div></div>');
         chatsocket.send(JSON.stringify({'chatText':input,'sender_username':'{{request.user.username}}','receiver_username':'{{receiver_username}}' }));
         $('#chatText').val('');
         $('#chatText').focus();
      });
           });
 </script>
-<div class=" container">
- <div  id="chat">
-    {% for chat in chats %}
-    {% if chat.sender.id == request.user.id %}
-<div class="card card-body border-success text-right">
-    <span>{{ chat.sender.username }}</span> <span>{{ chat.send_time }}</span>
-    <h2 class="blockqoute  text-success "><p >  {{ chat.chatText }}</p> </h2>
-</div>
-    {% else %}
-<div class="card card-body ">
-     <span>{{ chat.sender.username }}</span> <span>{{ chat.send_time }}</span>
-    <h2 class="blockqoute " > <p>  {{ chat.chatText }}</p> </h2>
+
+
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+<link rel="stylesheet" href="{% static 'css/chat-box.css' %}">
+
+{% include 'navbar-chat.html' %}
+
+<div class="wrapper">
+<div   id="sidebar">
+    <div class="sidebar-header">
+        <h4>{{ receiver.username }}</h4>
+        <h3 class="text-success">{% if receiver.last_online_info.status %}
+        online
+            {% else %}
+            last seen{{ receiver.last_online_info.lastLogin }}
+            {% endif %}
+        </h3>
+    </div>
+    {% for user in users %}
+    <ul class="list-unstyled components">
+                    <li>
+                        <a href="{% url 'users:chatroom' user.username %}"><span>start chat</span> {{ user.username }}</a>
+                    {% if user.last_online_info %}
+                   <h5 class="text-success">{% if user.last_online_info.status == 1 %}
+        online
+            {% else %}
+            last seen {{ user.last_online_info.lastLogin }}
+            {% endif %}
+        </h5>
+             {% endif %}
+                    </li>
+                </ul>
+    {% endfor %}
 </div>
 
+
+<div id="content">
+
+
+ <div  id="chat">
+
+    {% for chat in chats %}
+
+    {% if chat.sender.id == request.user.id %}
+
+<div class="chata    text-right "  >
+     {{ chat.chatText }}
+</div>
+     {{ chat.sender.username }} , {{ chat.send_time }}
+
+
+    {% else %}
+<div class="chata   bg-success text-left "  >
+
+      {{ chat.chatText }}
+</div>
+       {{ chat.sender.username }} {{ chat.send_time }}
+
     {% endif %}
-{% endfor %}
+
+  {% endfor %}
+
+</div>
+
+
+
  </div>
 <div class="row  fixed-bottom">
     <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <span>
-            <div class="form-group">
-                <label for="chatText">ChatText</label>
+    <div class="col-md-6 row">
+        <div class="col-9">
                 <input type="text" name="chatText" maxlength="1000" class="form-control" placeholder="ChatText" title="" required="" id="chatText">
-            </div></span>
-    <span>
-            <button id="chatSubmit" class="btn btn-success" style="align:right;" type="submit"> send</button>
-    </span>
+            </div>
+    <div class="col-3">
+            <button id="chatSubmit" class="btn btn-primary" style="align:right;" type="submit"> <img src="{% static 'img/send-24px.svg' %}"></button>
+    </div>
     </div>
         <div class="col-md-3"></div>
 
+</div>
+</div>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
 
-</div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-</div>
 {% endblock %}

@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+Online='online'
+Offline='offline'
+Status =((1,'onLine'),(0,'offLine'))
+
 class Profile(models.Model):
     creater = models.OneToOneField(User,on_delete=models.CASCADE,null=True,related_name='profile_to')
     bio = models.TextField(max_length=500)
@@ -28,4 +32,12 @@ class ChatRel(models.Model):
     def relation(self):
         return [self.sender,self.receiver]
 
+
+class UserLastSession(models.Model):
+    status=models.IntegerField(choices=Status,default=0)
+    lastLogin=models.DateTimeField(auto_now=True)
+    user=models.OneToOneField(User,on_delete=models.CASCADE,related_name='last_online_info')
+
+    def __str__(self):
+        return str(self.user)
 

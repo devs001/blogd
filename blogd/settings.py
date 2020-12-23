@@ -113,6 +113,8 @@ ASGI_APPLICATION= 'blogd.routing.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -216,3 +218,12 @@ if os.getcwd() == '/app':
     }
 
 django_heroku.settings(locals())
+
+CHANNEL_LAYERS = {
+    'default': {
+      'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts' : [('127.0.0.1',6379)]
+        },
+    },
+}

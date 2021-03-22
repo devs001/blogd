@@ -10,7 +10,7 @@ $(document).ready(function() {
 
 var s =     '{{receiver_username}}'.toString();
 
-var url= 'ws://'+window.location.host+'/ws/userschatroom/'+'{{request.user}}/'+s+'/';
+var url= 'wss://'+window.location.host+'/ws/userschatroom/'+'{{request.user}}/'+s+'/';
 
 var chatsocket = new WebSocket(url);
 

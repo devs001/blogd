@@ -15,7 +15,7 @@ from .users import consumers
 
 application = ProtocolTypeRouter({
     # Django's ASGI application to handle traditional HTTP requests
-
+    "http": django_asgi_app,
     # WebSocket chat handler
     "websocket": AuthMiddlewareStack(
         URLRouter([

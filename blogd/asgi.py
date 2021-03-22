@@ -11,7 +11,7 @@ import os
 
 from django.core.asgi import get_asgi_application
 from django.urls import re_path
-from channels.routing import ProtocolTypeRouter,URLRouter
+from channels.routing import ProtocolTypeRouter,URLRouter,get_default_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blogd.settings')
 from channels.auth import AuthMiddlewareStack
 from .users import consumers

@@ -22,6 +22,10 @@
 
                          <!--<button style="display:block-inline; " class="btn btn-primary btn-sm" type="submit" > serach </button>
                      --> </form></li>
+                     <li class="nav-item">
+                        <a href="{% url 'users:chatlist' %}" class="nav-link">
+                            <span id="new"  style="font-size:.7em; background-color:#bf0a1b; visibility:hidden; ">new</span>
+                             chats </a></li>
                      {% if user.is_authenticated %}
                      {% else %}
                      <li class="nav-item">

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 {% extends 'home.html' %}
 {% load bootstrap4 %}
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -26,10 +28,10 @@ $('#like').click(function(){
  						$('#jax_like').text("login requied")
  					}
                     else if(response.like){
-                     $( '#like' ).text("liked")
+                     $( '#like' ).css({'background-color':'#007bff'});
                     }
                     else{
-                      $( '#like' ).text("like it")
+                     $( '#like' ).css({'background-color':'#fff'});
                     }
               }
                     });
@@ -52,10 +54,14 @@ $('#like').click(function(){
  					alert("commentsadd");
               }
                     });
-  
+
 	});
 
+
 	$(document).on('submit','#response_comment',function(e){
+
+
+
          e.preventDefault();
 		 $.ajax({
              type: "POST",
@@ -71,58 +77,40 @@ $('#like').click(function(){
 	});
 
 </script>
-
+{% include 'navbar-home.html' %}
 
 <div class="row">
-    <div class="col-md-3">
-        <!-- catgories -->
 
-    <h2 class="display-5"> from - {{ artical_m.categories }} </h2>
-    {% for artical in articals %}
-    {% if artical.categories == artical_m.categories %}
-    <div class="card card-body">
-        <a href="{% url 'artical_m' artical.slug %}">
-        <div class="display-5"> {{ artical.title }}</div></a>
-    <div class="display-5">
-        {{ artical.said | truncatewords:20 }}
-    </div>
-
-    </div>
-    {% endif  %}
-    {% endfor %}
-    </div>
-    <div class="col-md-6 p-1">
+    <div class="col-md-9 p-1">
     <div class="card">
-        <div class="card-header">
-            <span class="blockquote">tags </span>
+            <p ></p>
+            <center style="font-size:1.9rem; background-color:"  > {{ artical_m.title }} </center>
+            <center style="margin :1.4rem;">
+            <p  style="display:inline-block">{{ artical_m.update_date }}</p>
+            <span class="dot"></span>
             {% for tag in tags %}
-            <button class="btn-sm btn-secondary " style="border-width:small; " href="{% url 'tags' tag.slug %}" >{{ tag }}</button>
-        </hr>
+            <a   href="{% url 'tags' tag %}" >{{ tag }}</a>
             {% endfor %}
+                <span class="dot"></span>
+                <p  style="display:inline-block">  {{ artical_m.categories }} </p>
+                                <span class="dot"></span>
+                <span style="font-size:1.2rem;">{{ artical_m.creater.username }}</span>
 
+            </center>
                 {% if artical_m.In_image %}
                 <img src="{{ artical_m.In_image.url }}" class="img-fluid"  >
         {% endif %}
-            <p class="display-4" style="display:inline-block"> {{ artical_m.title }} </p>
-        <p class="display-5" style="display:inline-block"> {{ artical_m.status  }} </p>
-
-        <p class="display-5" style="display:inline-block"> last date  {{ artical_m.update_date }}  |</p>
-        <p class="display-5" style="display:inline-block"> creation date {{ artical_m.create_date }} </p>
-
 
         <div>
-            <button href="{% url 'email_share' artical_m.id %}" class="bt-sm btn-primary ">
-        share via email
-    </button>
-            <div class="fb-share-button" data-href="http://localhost:8000{{ artical_m.get_absolute_url }}" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
 
-        </div>
-            <a href="http://twitter.com/share?url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">Twitter</a>
-            <a href="http://reddit.com/submit?url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">reddit</a>
-            <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">linkedin</a>
-            <a href="https://plus.google.com/share?url=http://localhost:8000{{ artical_m.get_absolute_url }}" class="btn btn-outline-dark">googleplus</a>
-            <a href="http://www.facebook.com/sharer.php?u=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="btn btn-outline-dark">facebook</a>
-        </div>
+            <!--<div class="fb-share-button" data-href="http://localhost:8000{{ artical_m.get_absolute_url }}" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+-->
+
+            <a href="http://twitter.com/share?url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="social_btn"><img src="{% static 'img/twitter.jpg' %}" class="social_btn"></a>
+            <a href="http://reddit.com/submit?url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="social_btn"><img class="social_btn" src="{% static 'img/icons8-reddit.svg' %}"></a>
+            <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" class="social_btn"><img class="social_btn" src="{% static 'img/linkedin.jpg' %}"></a>
+            <a href="http://www.facebook.com/sharer.php?u=http://localhost:8000{{ artical_m.get_absolute_url }}&text={{ artical_m.title}}" ><img class="social_btn" src="{% static 'img/facebook.jpg' %}"></a>
+</div>
         <div class="card-body">
 
           <p class="blockquote" style="display:inline-block; font-family: 'Noto Sans JP ', sans-serif black;  "> {{ artical_m.said | safe }} </p>
@@ -139,26 +127,42 @@ $('#like').click(function(){
     <div class="col-md-3">
         <p class="display-4" id="jax_like"></p>
 
-        <button class="btn btn-success" name="{{ artical_m.id }}" id="like" type="button">{% if like_status %} liked
-            {% else %}
-            like it {% endif %}
-        </button>
+        <img src="{% static 'img/like.png' %}" name="{{ artical_m.slug }}" id="like" type="button" style=" background-color:{% if like_status %}#007bff{% else %}#fff{% endif %}; size:2rem 2rem; border-radius:100%; position:fixed; z-index: 1; margin-right:2rem;">
+
 
 
          <div class="card" >
+             <a href="{% url 'users:chatroom' artical_m.creater.username %} ">
         <div class="card-header">
+
             {% if artical_m.creater.profile_to.profile_image.url %}
             <img src="{{ artical_m.creater.profile_to.profile_image.url }}" class="img-fluid rounded-circle" style="width: 60px; height:60px;">
             {% endif %}
-            <span class="display-5">author -</span>
-            <span class="display-4">{{ artical_m.creater.username }}</span>
+            <span style="font-size:1.2rem;">{{ artical_m.creater.username }}</span>
         </div>
+             </a>
         <div class="card-body">
-            <a href="{% url 'users:chatroom' artical_m.creater.username %}"> instagram </a>
+            <a href="{% url 'users:chatroom' artical_m.creater.username %}"> chat </a>
             <p class="display-5"> {{ artical_m.creater.profile_to.bio }} </p>
             <a href="{{ artical_m.creater.profile_to.instagram }}"> instagram </a>
                         <a href="{{ artical_m.creater.profile_to.instagram }}" class="btn"> instagram </a>
         </div>
+    </div>
+           <div >
+        <!-- catgories -->
+
+    {% for artical in articals %}
+    {% if artical.categories == artical_m.categories %}
+    <div class="card card-body">
+        <a href="{% url 'artical_m' artical.slug %}">
+        <div class="display-5"> {{ artical.title }}</div></a>
+    <div class="display-5">
+        {{ artical.said | truncatewords:20 | safe }}
+    </div>
+
+    </div>
+    {% endif  %}
+    {% endfor %}
     </div>
     </div>
 </div>

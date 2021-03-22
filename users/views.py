@@ -5,6 +5,7 @@ from .form import SignUpForm,Profile_f,ChatForm
 from django.contrib.auth.models import User
 from .models import ChatRel
 from django.db.models import Q
+from django.db.models import aggregates
 # Create your views here.
 def register(request):
     if request.method != 'POST':
@@ -52,3 +53,19 @@ def ChatRoom(request,receiver_username):
     context = {'form': form,'chats':chate,'receiver_username':receiver_username,'users':users,'receiver':Receiver}
     return render(request,'chatroom.html',context)
     
+def ChatList(request):
+    users=User.objects.all()
+    context={'users':users}
+    last_chats=[]
+    for user in users:
+        last_chats.append(last_chat(user,request.user))
+    context['last_chats']=last_chats
+    return render(request,'chatlist.html',context)
+
+
+def last_chat(sender,receiver):
+    try:
+        last=ChatRel.objects.filter(sender=sender,receiver=receiver)[0]
+    except:
+        return None
+    return last

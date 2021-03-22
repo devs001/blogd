@@ -6,7 +6,7 @@
 <h2> create content here </h2>
 <p>
 <form action="{% url 'create_contents' head_id=header.id %}"
-      method = 'post' class="form" >
+      method = 'post' class="form" enctype="multipart/form-data" >
     {% bootstrap_form form %}
     {% csrf_token %}
 <button type='submit' class="btn btn-outline-light"> create it content</button>

@@ -3,61 +3,84 @@
 {% load static %}
 {% block chats %}
 
-
+{% include 'navbar-chat.html' %}
 <script>
+
 $(document).ready(function() {
 
-var url= 'ws://'+window.location.host+'/ws/userschatroom/'+'{{request.user.username}}/'+'{{receiver_username}}/';
+var s =     '{{receiver_username}}'.toString();
+
+var url= 'ws://'+window.location.host+'/ws/userschatroom/'+'{{request.user}}/'+s+'/';
 
 var chatsocket = new WebSocket(url);
 
 chatsocket.onmessage = function(e){
-         alert('indi on massage');
         var data = JSON.parse(e.data);
         var massage = data.massage;
-        var $chat = $('#chat');
+        var $chat = $('.cha');
         if(massage.type=='chat_massage'){
-        var massage_text =massage.massage;
-        $('.sending').html("");
-        $chat.append('<div class="text-right">'+ '<div class="card card-body border-success">'+ '<span>'+ massage.sender+ '</span> <span>' +massage.send_time+'</span><h2 class="blockqoute  text-success ">'   +massage_text+ '</h2></div></div>');
+                var massage_text =massage.massage;
+        if(massage.sender=='{{request.user.username}}'){
+        $(".cha li").last().remove();
+        $chat.append('<li class="list-unstyled chateli" ><div class="chatbox bubble" style="float:right;  background-color:#007bff; " ><p >'+massage_text+'</p><div class="time">'+ massage.send_time +'</div></div></li></div>');
         }
         else{
-
-        $chat.append('<div class="sending"> <div class="card card-body border-success  text-right"> <span> Me </span> <span>loading.....</span><h2 class="blockqoute  text-success ">   massage </h2></div></div>');
+                $chat.append('<li class="list-unstyled chateli" ><div class="chatbox bubble" style="float:left; background-color:#6c757d; " ><p >'+massage_text+'</p><div class="time">'+ massage.send_time +'</div></div></li></div>');
         }
+        }
+        else{
+        $chat.append(' <div class="card card-body border-success  text-right"> <span> Me </span> <span>loading.....</span><h2 class="blockqoute  text-success ">   massage </h2></div>');
+        }
+        var last=$('.cha li').last().find('.bubble');
+        $('html, body').animate({
+                    scrollTop: $(last).offset().top
+                }, 700);
+        last.animate({'bgcolor':'#fd7e14', 'padding':'+=40px'},'fast');
+        last.animate({'bgcolor':'#fd7e14', 'padding':'-=40px'},'slow');
 };
 chatsocket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
 
 };
+$('#chatText').click(function(){
+ window.scrollTo(0, document.body.scrollHeight);
+ });
+
 
 $('#chatSubmit').click(function(){
 
+        console.log('Chat socke');
         var input = $('#chatText').val();
-        $('#chat').append('<div class="sending"> <div class="card card-body border-success  text-right"> <span> Me </span> <span>loading.....</span><h2 class="blockqoute  text-success "> '  +input+ '</h2></div></div>');
+        if(input!=""){
+        $('.cha').append('<li class="list-unstyled chateli"> <div class="chatbox bubble bg-primary" style="float:right; " > <p>'+input+ '</p><div > sending... </div></div></ul>');
         chatsocket.send(JSON.stringify({'chatText':input,'sender_username':'{{request.user.username}}','receiver_username':'{{receiver_username}}' }));
+        var last=$('.cha li').last().find('.bubble');
+        last.focus();
+        last.css({'background-color':'#fd7e14'});
+        last.animate({'bg-color':'#fd7e14', 'padding':'00px'},'slow');
+        last.animate({'bg-color':'#fd7e14', 'padding':'+=100px'},'fast');
+
+        }
+        else{
+            alert('no text')
+        }
         $('#chatText').val('');
         $('#chatText').focus();
      });
           });
 </script>
 
-
-<link rel="stylesheet" href="{% static 'css/style2.css' %}">
-<link rel="stylesheet" href="{% static 'css/chat-box.css' %}">
-
-{% include 'navbar-chat.html' %}
-
 <div class="wrapper">
-<div   id="sidebar">
+<div id="sidebar">
     <div class="sidebar-header">
         <h4>{{ receiver.username }}</h4>
-        <h3 class="text-success">{% if receiver.last_online_info.status %}
+        <p style="lasts">{% if receiver.last_online_info.status %}
         online
             {% else %}
-            last seen{{ receiver.last_online_info.lastLogin }}
-            {% endif %}
-        </h3>
+            <p class="lasts">last seen{{ receiver.last_online_info.lastLogin }}
+
+    </p>{% endif %}
+        </p>
     </div>
     {% for user in users %}
     <ul class="list-unstyled components">
@@ -67,7 +90,7 @@ $('#chatSubmit').click(function(){
                    <h5 class="text-success">{% if user.last_online_info.status == 1 %}
         online
             {% else %}
-            last seen {{ user.last_online_info.lastLogin }}
+                       <p class="lasts" >last seen {{ user.last_online_info.lastLogin }}</p>
             {% endif %}
         </h5>
              {% endif %}
@@ -76,59 +99,38 @@ $('#chatSubmit').click(function(){
     {% endfor %}
 </div>
 
+<div id="content"  >
 
-<div id="content">
-
-
- <div  id="chat">
-
+<ul class="cha">
     {% for chat in chats %}
-
     {% if chat.sender.id == request.user.id %}
-
-<div class="chata    text-right "  >
-     {{ chat.chatText }}
+<li class="list-unstyled chateli" >
+<div class="chatbox bubble" style="float:right; background-color:#007bff; " >
+   <p >{{ chat.chatText }}</p>
+    <div class="time"> {{ chat.sender.username }} , {{ chat.send_time }}</div>
 </div>
-     {{ chat.sender.username }} , {{ chat.send_time }}
-
-
+</li>
     {% else %}
-<div class="chata   bg-success text-left "  >
-
-      {{ chat.chatText }}
+    <li class="list-unstyled chateli">
+<div class="  chatbox bubble " style="float:left; background-color:#6c757d;"  >
+    <p class="massage">{{ chat.chatText }}</p>
+    <span class="time" >{{ chat.sender.username }} {{ chat.send_time }}</span>
 </div>
-       {{ chat.sender.username }} {{ chat.send_time }}
+    </li>
 
     {% endif %}
 
   {% endfor %}
-
+</ul>
 </div>
 
+    <div class=" fixed-bottom" style="align-items:stretch; height:20%; display:flex; ">
 
+                <input  style="float:left; width:76%; display:inline-block; margin-top:50px; margin-left:50px;"  type="text" name="chatText" maxlength="1000" class="form-control" placeholder="ChatText" title="" required="" id="chatText">
 
- </div>
-<div class="row  fixed-bottom">
-    <div class="col-md-3"></div>
-    <div class="col-md-6 row">
-        <div class="col-9">
-                <input type="text" name="chatText" maxlength="1000" class="form-control" placeholder="ChatText" title="" required="" id="chatText">
-            </div>
-    <div class="col-3">
-            <button id="chatSubmit" class="btn btn-primary" style="align:right;" type="submit"> <img src="{% static 'img/send-24px.svg' %}"></button>
+            <button id="chatSubmit" class="btn" style="float:right; width:24%; display:inline-block; margin-top:40px; margin-left:0px; width:70px; height:70px; "  type="submit"> <img src="{% static 'img/send-24px.svg' %}"></button>
     </div>
-    </div>
-        <div class="col-md-3"></div>
 
 </div>
-</div>
-</div>
-<script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-            });
-        });
-    </script>
 
 {% endblock %}

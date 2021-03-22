@@ -207,7 +207,7 @@ def liked(request):
         print("lol")
         if request.POST.get("operation")== "likeop" and request.is_ajax():
             jax_id=request.POST.get("jax_id")
-            artical_m=Artical_m.objects.get(id=jax_id)
+            artical_m=Artical_m.objects.get(slug=jax_id)
             if artical_m.likes.filter(id=request.user.id):
                 like=False
                 artical_m.likes.remove(request.user)

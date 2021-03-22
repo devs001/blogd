@@ -1,40 +1,34 @@
 {% load static %}
+
+
+
+
+
 <body data-spy="scroll" data-target="#menu" data-offset="0" >
-    <nav class="navbar navbar-dark   bg-dark" >
+
+<body data-spy="scroll" data-target="#menu" data-offset="0" >
+    <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark" >
         <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'first' %}">chats </a>
+        <a class="navbar-brand" href="{% url 'first' %}">heade </a>
 
+        <button class="navbar-toggler" type="button"
+        data-target="#menu" data-toggle="collapse">
 
+            <span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="menu">
                  <ul class="navbar-nav ml-auto">
                      <li class="nav-item">
-                        <a href="{% url 'show_articals' %}" class="nav-link" >show</a></li>
-                     <li class="nav-item">
-                        <a href="#artical" class="nav-link">
-                             {{ receiver.usename }} </a></li>
-                     <li>
-                     <form class="form" method="get" action="{% url 'serach' %}" >
-
-                         <input style="" name="st" class="form-control" type="text" placeholder="serach title by ">
-
-                         <!--<button style="display:block-inline; " class="btn btn-primary btn-sm" type="submit" > serach </button>
-                     --> </form></li>
+                        <a href="{% url 'users:chatlist' %}" class="nav-link">
+                            <span id="new"  style="font-size:.7em; background-color:#bf0a1b; visibility:hidden; ">new</span>
+                             chats </a></li>
+                     <li class="nav-item list-unstyled"><button type="button" id="sidebarCollapse" class="btn btn-primary">
+                        <i class="fas fa-align-left"></i>
+                        <span class="chat-toggle" ><img src="{% static 'img/chat/sort-24px.svg' %}"></span>
+                    </button></li>
                      {% if user.is_authenticated %}
                      {% else %}
                      <li class="nav-item">
-                          <div id="profilereceiver" class="dropdown-toggle" data-toggle="dropdown" data-target="#profile-content" style="bg-color:black;">
-                     {% if receiver.socialaccount_set.all.0.extra_data.picture %}
-                     <img src="{{ receiver.socialaccount_set.all.0.extra_data.picture }}" class="rounded-circle" style="height:30px; width:30px">
-                     {% else %}
-                    {% if receiver.profile_to.profile_image.url %}
-                     <img src="{{  receiver.profile_to.profile_image.url }}" class="rounded-circle" style="height:30px; width:30px">
-                     {% else %}
-                <button class="btn btn-primary dropdown-toggle" datatoggle="dropdown">
-                <span class="caret"></span>
-                </button>
-                         {% endif %}
-                     {% endif %}
-                </div> </li>
+                          <a href="{% url 'users:register' %}" class="nav-link">register</a> </li>
                      <li class="nav-item">
                           <a href="{% url 'users:login' %}" class="nav-link"> login </a></li>
                      <li class="nav-item">
@@ -69,7 +63,8 @@
                               </li>
                               <li style="color:white; padding:4rem;">{{ user.first_name}} {{ user.last_name}}</li>
                       <li><br> </li>
-                     <li style="padding:1rem;">here</li>
+                     <li style="padding:1rem;"> <a href="{% url 'create_artical' %}" >
+                             create artical     </a></li>
                      <li style="padding:1rem;"> <a href="{% url 'dashbroad' %}" >
                              dashbroad    </a></li>
                      <li style="padding:1rem;"  ><a href="{% url 'users:reset_password' %}" > reset password</a></li>
@@ -77,9 +72,9 @@
                           </ul>
                      </div>
             {% endif %}
-         <li class="nav-item"   ><button type="button" id="sidebarCollapse" class="btn btn-primary">
-                        <i class="fas fa-align-left"></i>
-                        <span class="chat-toggle" ><img src="{% static 'img/chat/sort-24px.svg' %}"></span>
-                    </button></li>
         </div>
 </nav>
+
+
+
+

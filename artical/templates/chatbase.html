@@ -1,0 +1,38 @@
+
+
+
+
+
+<link rel="stylesheet" href="{% static 'css/style2.css' %}">
+
+{% include 'navbar-chat.html' %}
+<div class="wrapper">
+<div id="sidebar">
+    <div class="sidebar-header">
+        <h4>{{ receiver.username }}</h4>
+        <p style="lasts">{% if receiver.last_online_info.status %}
+        online
+            {% else %}
+            <p class="lasts">last seen{{ receiver.last_online_info.lastLogin }}
+
+    </p>{% endif %}
+        </p>
+    </div>
+    {% for user in users %}
+    <ul class="list-unstyled components">
+                    <li>
+                        <a href="{% url 'users:chatroom' user.username %}"><span>start chat</span> {{ user.username }}</a>
+                    {% if user.last_online_info %}
+                   <h5 class="text-success">{% if user.last_online_info.status == 1 %}
+        online
+            {% else %}
+                       <p class="lasts" >last seen {{ user.last_online_info.lastLogin }}</p>
+            {% endif %}
+        </h5>
+             {% endif %}
+                    </li>
+                </ul>
+    {% endfor %}
+</div>
+
+</div>

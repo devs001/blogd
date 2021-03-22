@@ -9,7 +9,7 @@
 <body>
 {% block content %}
 
-<form class="form" method="post" action="{% url 'edits_artical' artica.slug %}">
+<form class="form" method="post" action="{% url 'edits_artical' artica.slug %}" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type='submit' class="btn btn-outline-dark"> create it content</button>

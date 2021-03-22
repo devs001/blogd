@@ -1,0 +1,58 @@
+{% extends 'home.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{%  block chats %}
+
+{% include 'navbar-chat.html' %}
+
+<div >
+        <ul class="list-unstyled components" style="margin-top:5em;">
+
+    {% for user in users %}
+            <a href="{% url 'users:chatroom' user.username %}">
+                    <li id="{{ user.username }}" class="chat-card" onclick="{% url 'users:chatroom' user.username %}">
+                     <div  class="chat-image">
+                     {% if user.socialaccount_set.all.0.extra_data.picture %}
+                     <img src="{{ receiver.socialaccount_set.all.0.extra_data.picture.url }}" class="rounded-circle" style="height:4em; width:4em;">
+                     {% else %}
+                    {% if user.profile_to.profile_image %}
+                     <img src="{{  user.profile_to.profile_image.url }}" class="rounded-circle" style="height:4em; width:4em;">
+                                             {% else %}
+                        {% endif %}
+                     {% endif %}
+                     </div>
+                        <div class="chat-info" >
+                        <a style="font-size:.8em; " href="{% url 'users:chatroom' user.username %}"> {{ user.first_name }} {{ user.last_name }}</a>
+
+                                {% for last_chat in last_chats %}
+                        {% if last_chat.sender == user %}
+                        {%  if last_chat.chatText %}
+                        <h2 style="font-size:.6em;"> {{ last_chat.chatText|truncatechars:20 }} </h2>
+                        {% else %}
+                        <h2> nothing yet .. </h2>
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                            </div>
+                    <div style="float:right;">
+                            {% if user.last_online_info %}
+                   <h5 >{% if user.last_online_info.status == 1 %}
+        online
+            {% else %}
+                       last seen {{ user.last_online_info.lastLogin }}
+            {% endif %}
+        </h5>
+                        </div>
+             {% endif %}
+
+                        </div>
+                    </li>
+            </a>
+    {% endfor %}
+                            </ul>
+
+</div>
+</div>
+
+{% endblock %}

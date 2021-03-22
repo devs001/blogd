@@ -16,6 +16,8 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.creater)
 
+
+
 class ChatRel(models.Model):
     sender=models.ForeignKey(User,on_delete=models.CASCADE,related_name='sender')
     receiver=models.ForeignKey(User,on_delete=models.CASCADE,related_name='receiver')
@@ -27,6 +29,14 @@ class ChatRel(models.Model):
 
     def __str__(self):
         return str(self.chatText)
+
+    def last_chat(self):
+        last=ChatRel.objects.filter(sender=self.sender,receiver=self.receiver)[-1]
+        print("-----"+str(len(last)))
+        if last:
+            return last.chatText
+        else:
+            return "no massage yet start a conversation"
 
 
     def relation(self):

@@ -14,11 +14,12 @@ from django.urls import re_path
 from channels.routing import ProtocolTypeRouter,URLRouter
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'blogd.settings')
 from channels.auth import AuthMiddlewareStack
-from ..users import consumers
-application = get_asgi_application()
+from .users import consumers
+django_asgi_app = get_asgi_application()
 
 application=ProtocolTypeRouter(
         {
+            "http": django_asgi_app,
             'websocket': AuthMiddlewareStack(
                 URLRouter([
                     re_path(r'ws/userschatroom/(?P<Susername>[\w@.]+)/(?P<Rusername>[\w@.]+)/$',consumers.ChatConsumer.as_asgi()),

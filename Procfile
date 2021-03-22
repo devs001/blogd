@@ -1,1 +1,1 @@
-daphne blogd.asgi:application
+web: daphne blogd.asgi:application

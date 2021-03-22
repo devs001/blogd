@@ -1,1 +1,1 @@
-web: daphne -b 0.0.0.0 -p 8001 blogd.asgi:application
+web: daphne -b redis://:1nrAiHoymwzLW6f8FtqeChTMSj2xB5mD@redis-11156.c114.us-east-1-4.ec2.cloud.redislabs.com -p 11156 blogd.asgi:application

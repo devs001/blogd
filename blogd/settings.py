@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'channels',
     'artical',
     'bootstrap4',
     'users',
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'django.contrib.sitemaps',
     'tinymce',
-    'channels'
+
     #'whitenoise.runserver_nostatic', # new!
 
     #'social_django',

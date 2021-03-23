@@ -198,6 +198,11 @@ AUTHENTICATION_BACKENDS =(
     #'social.backends.twitter.TwitterOAuth',
     #'social.contrib.auth.backends.ModelsBackend'
 )
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+os.environ['wsgi.url_scheme'] = 'https'
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 SITE_ID=1
 LOGIN_REDIRECT_URL='first'
 LOGOUT_REDIRECT_URL='first'
@@ -211,7 +216,6 @@ SOCIALACCOUNT_PROVIDERS={
         }
     }
 }
-
 if os.getcwd() == '/app':
     import dj_database_url
     DATABASES = {

@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+#from allauth.socialaccount.models import SocialAccount
 # Create your models here.
+from allauth.account.adapter import DefaultAccountAdapter
+#class adapter(DefaultAccountAdapter):
+ #   def save_user(self, request, user, form, commit=True):
+
+
 Online='online'
 Offline='offline'
 Status =((1,'onLine'),(0,'offLine'))

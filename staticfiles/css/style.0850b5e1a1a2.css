@@ -76,7 +76,9 @@ html {
   box-shadow: -5px 5px 10px rgba(#777777, .5);
 }
 
-
+.home-inner {
+    background-image: url("b-gh.6495aa6a4bd5.jpg");
+}
 
 .caption {
     width: 100%;
@@ -177,33 +179,10 @@ heading .h3 {
     font-size:5rem;
 }
 .container{
-    position:relative;
-    padding-top: 7rem;
-    margin:0px;
+
+    padding-top: 200px;
 
 }
-
-.container.slide-top {
-    margin-top: 27rem;
-}
-
-.container.slide-left {
-    margin-left: 0rem;
-        float:left;
-        margin-left: -1rem;
-    position:relative;
-
-
-}
-.img-container {
-    position:absolute;
-    right: -40rem;
-    }
-.img-container img {
-    height:50rem;
-    width:70rem;
-}
-
 .home-inner {
   position: fixed;
   display: table;
@@ -225,4 +204,3 @@ heading .h3 {
 
 
 }
-

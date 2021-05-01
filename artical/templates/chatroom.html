@@ -5,6 +5,27 @@
 
 {% include 'navbar-chat.html' %}
 <script>
+window.addEventListener("DOMContentLoaded", () => {
+        const button = document.getElementById("button");
+        const result = document.getElementById("result");
+        const main = document.getElementsByTagName("main")[0];
+        let listening = false;
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (typeof SpeechRecognition !== "undefined") {
+          const recognition = new SpeechRecognition();
+
+          const stop = () => {
+            main.classList.remove("speaking");
+            recognition.stop();
+            button.textContent = "Start listening";
+          };
+
+          const start = () => {
+            main.classList.add("speaking");
+            recognition.start();
+            button.textContent = "Stop listening";
+          };
 
 $(document).ready(function() {
 

@@ -11,11 +11,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v8.0" nonce="fevgPw0M"></script>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <!-- site metas -->
+  <title>shree</title>
+  <meta name="keywords" content="chat,blog">
+  <meta name="description" content="its bloging">
+  <meta name="author" content="deveender">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>blogdef</title>
     <script src="{% static 'js/like.js' %}"></script>
+        <script src="{% static 'js/script-nav.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style-nav.css' %}">
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;900&display=swap" rel="stylesheet">
 </head>
@@ -31,11 +43,8 @@
     background: radial-gradient(circle, transparent 20%, #E5E5F7 20%, #E5E5F7 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, #E5E5F7 20%, #E5E5F7 80%, transparent 80%, transparent) 50px 50px, linear-gradient(#444CF7 4px, transparent 4px) 0 -2px, linear-gradient(90deg, #444CF7 4px, #E5E5F7 4px) -2px 0;
     background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;"></div>
 
-<div class='container-fluid' >
 
-    <div class="pb-1 mb-4">
 
-<div class="padt" >
     <div class="popup" >
     <p> its is massage to you by
         someone space
@@ -43,17 +52,16 @@
 </div>
 {% block chats %}
 {% endblock chats %}
-    </div>
 
-      <div class='container-fluid' >
+
     <div class="pb-1 mb-4">
 
 {% block content %}
 {% endblock content %}
     </div>
       </div>
-      </div>
 
-</div>
+
+
 </body>
 </html>

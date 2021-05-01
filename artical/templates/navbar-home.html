@@ -1,38 +1,35 @@
 
 <body data-spy="scroll" data-target="#menu" data-offset="0" >
-    <nav class="navbar navbar-dark navbar-expand-md fixed-top bg-dark" >
+    <nav class="navbar navbar-expand-md navbar-dark "  >
         <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'first' %}">heade </a>
 
-        <button class="navbar-toggler" type="button"
-        data-target="#menu" data-toggle="collapse">
-
-            <span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="menu">
-                 <ul class="navbar-nav ml-auto">
-                     <li class="nav-item">
-                        <a href="{% url 'show_articals' %}" class="nav-link" >show</a></li>
-                     <li class="nav-item">
-                        <a href="#artical" class="nav-link">
-                             create artical </a></li>
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#main-nav">
+				<span class="menu-icon-bar"></span>
+				<span class="menu-icon-bar"></span>
+				<span class="menu-icon-bar"></span>
+			</button>
+            <div id="main-nav" class="collapse navbar-collapse">
+				<ul class="navbar-nav ml-auto">
+					<li><a href="#" class="nav-item nav-link active">Home</a></li>
+					<li><a href="#" class="nav-item nav-link">About Us</a></li>
+                    <li ><a href="{% url 'show_articals' %}" class="nav-item nav-link" >show</a></li>
+                     <li ><a href="#artical" class="nav-item nav-link">create artical </a></li>
                      <li>
                      <form class="form" method="get" action="{% url 'serach' %}" >
-
                          <input style="" name="st" class="form-control" type="text" placeholder="serach title by ">
-
                          <!--<button style="display:block-inline; " class="btn btn-primary btn-sm" type="submit" > serach </button>
                      --> </form></li>
-                     <li class="nav-item">
-                        <a href="{% url 'users:chatlist' %}" class="nav-link">
-                            <span id="new"  style="font-size:.7em; background-color:#bf0a1b; visibility:hidden; ">new</span>
+                     <li ><a href="{% url 'users:chatlist' %}" class="nav-item nav-link">
+                            <span id="new"  style="font-size:.7em; background-color:#bf0a1b; display:none; ">new</span>
                              chats </a></li>
                      {% if user.is_authenticated %}
                      {% else %}
-                     <li class="nav-item">
-                          <a href="{% url 'users:register' %}" class="nav-link">register</a> </li>
-                     <li class="nav-item">
-                          <a href="{% url 'users:login' %}" class="nav-link"> login </a></li>
-                     <li class="nav-item">
+                     <li >
+                          <a href="{% url 'users:register' %}" class="nav-item nav-link">register</a> </li>
+                     <li >
+                          <a href="{% url 'users:login' %}" class="nav-item nav-link"> login </a></li>
+
 
                      {% endif %}
                   </ul>

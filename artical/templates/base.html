@@ -1,72 +1,49 @@
-<!DOCTYPE html>
 
 {% extends 'home.html' %}
 {% load static %}
 {% load bootstrap4 %}
-
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
 {% block content %}
 <body data-spy="scroll" data-target="#menu" data-offset="0" >
 
 
 <!-- here some iphone need code skiped -->
+<header class="header-area overlay">
     <div id="show">{% include 'navbar-home.html' %}
-    <div class="landing">
-        <div class="home-wrap">
-            <div class="home-inner">
-    </div>
+        <div class="banner">
+        <div class="container slide-top">
+			<h1>Bootstrap 4 Navbar</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
+			<a href="#content" class="button button-primary">Learn More</a>
+		</div>
+        <div class="container slide-left">
+            <div class="img-container">
+			<img src="{% static 'img/illustrations/forming_ideas.svg' %}" style=" object-fit: contain;" >
+            </div>
+		</div>
         </div>
         </div>
+  </header>
 
 
+<section class="section-area" id="about">
+    <div class="banner">
+        <div class="container">
 
-
-
-<!-- this where main caption start -->
-
-<div class="caption center-block text-center">
-    <h2> artical to express yourself </h2>
-    {% if user.is_authenticated %}
-    {% else %}
-    <a class="btn btn-outline-light" href="{% url 'users:login' %}">login & write </a>
-    <a class="btn btn-outline-light" href="{% url 'users:register' %}" id="register">
-        register </a>
-
-    {% endif %}
-    <a class="btn btn-outline-light" href="{% url 'show_articals' %}">
-        show articals </a>
-    <a class="btn btn-outline-light" href="{% url 'create_artical' %}">
-        create artical </a>
-</div>
-
-
-</div>
-
-
-</div>
-<div class="jumbotron" id="about">
-    <h3 class="heading">
-        you can create a artical
-    </h3>
-    <div class="row">
-        <div class="col-md-6 text-center">
-            <h4>say something about a topic </h4>
-            <p>you can write a aritcal just  about
-            anything you can think of</p>
-        </div>
-        <div class="col-md-6 text-center">
             <h4>you can read </h4>
             <p> know what other people are
             thinking about a topic. expand
                 your knowlege or just fun</p>
         </div>
+        <div >
+
+            <h4>you can read </h4>
+            <p> know what other people are
+            thinking about a topic. expand
+                your knowlege or just fun</p>
+        </div>
+
     </div>
-</div>
+</section>
 <!-- end of about -->
 <!-- start of more info -->
 <div id="more-pic">
@@ -139,6 +116,25 @@
     </div>
 </div>
 {% endblock content %}
+
+<!-- this where main caption start
+
+<div class="caption center-block text-center">
+    <h2> artical to express yourself </h2>
+    {% if user.is_authenticated %}
+    {% else %}
+    <a class="btn btn-outline-light" href="{% url 'users:login' %}">login & write </a>
+    <a class="btn btn-outline-light" href="{% url 'users:register' %}" id="register">
+        register </a>
+
+    {% endif %}
+    <a class="btn btn-outline-light" href="{% url 'show_articals' %}">
+        show articals </a>
+    <a class="btn btn-outline-light" href="{% url 'create_artical' %}">
+        create artical </a>
+</div>
+-->
+
 
 </body>
 </html>

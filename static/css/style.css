@@ -163,7 +163,6 @@ heading .h3 {
     text-align:center;
     padding:2rem;
 
-
 }
 
 .base-footer {
@@ -178,30 +177,50 @@ heading .h3 {
 }
 .container{
     position:relative;
-    padding-top: 7rem;
-    margin:0px;
+    padding : 7rem 0rem 2px 0px;
+    margin-right:0px;
 
 }
 
-.container.slide-top {
+.container.anima {
     margin-top: 27rem;
 }
-
-.container.slide-left {
-    margin-left: 0rem;
+.anima{
+    opacity:o;
+}
+.container.left {
         float:left;
         margin-left: -1rem;
     position:relative;
-
-
 }
 .img-container {
-    position:absolute;
-    right: -40rem;
+    position:relative;
     }
-.img-container img {
+
+.img-container{
+    position:relative;
+}
+
+.img-container .second {
+    position:absolute;
+    right: 5rem;
+    top: -10rem;
+    height:40rem;
+    width:60rem;
+    }
+
+
+
+.img-container .header {
     height:50rem;
     width:70rem;
+    right: -20rem;
+    top: -25rem;
+
+    }
+
+.second-text {
+
 }
 
 .home-inner {
@@ -224,5 +243,10 @@ heading .h3 {
     color: white;
 
 
+}
+
+.second.container {
+    height:50rem;
+    width:70rem;
 }
 

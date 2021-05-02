@@ -66,7 +66,7 @@ html {
 
 .section-area {
   position: relative;
-  height: 80vh;
+  height: 70vh;
   background: #655def;
   background-attachment: fixed;
   background-position: center center;
@@ -81,12 +81,27 @@ html {
   width:100%;
   color: #fff;
   z-index: 1;
-  padding:0px;          
+  padding:0px;
 }
 .banner h1 {
   font-weight: 800;
 }
 .banner p {
+  font-weight: 700;
+}
+.section-banner {
+  display: flex;
+  position: relative;
+  height: 100%;
+  width:100%;
+  color: #fff;
+  z-index: 2;
+  padding:0px;
+}
+.section-banner h1 {
+  font-weight: 800;
+}
+.section-banner p {
   font-weight: 700;
 }
 .navbar {
@@ -197,6 +212,9 @@ html {
 }
 .navbar.fixed-top.navbar-dark .navbar-nav .nav-link.active {
   color: #c0ca33;
+}
+.navbar.fixed-top.navbar-dark .navbar-nav .nav-link.navbar-brand {
+    font-size:1rem;
 }
 .navbar.fixed-top.navbar-dark .navbar-nav .nav-link::after {
   background-color: #c0ca33;
@@ -322,7 +340,6 @@ html {
     animation-delay:5s;
 	-webkit-animation: slide-top 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) .5s both;
 	        animation: slide-top 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) .5s both;
-    opacity: slide-top 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
 /* ----------------------------------------------
@@ -339,14 +356,14 @@ html {
  */
 @keyframes slide-top {
   0% {
+        opacity:0;
     -webkit-transform: translateY(0);
             transform: translateY(0);
-    opacity:.03;
   }
   100% {
-    -webkit-transform: translateY(-15rem);
-            transform: translateY(-15rem);
         opacity:1;
+    -webkit-transform: translateY(-170px);
+            transform: translateY(-170px);
   }
 }
 
@@ -355,7 +372,6 @@ html {
 
 .slide-left {
     animation-delay:2s;
-     animation-direction: alternate;
 	-webkit-animation: slide-left 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) .3s both;
 	        animation: slide-left 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) .32s both;
 
@@ -368,14 +384,15 @@ html {
 
 @keyframes slide-left {
   0% {
+    opacity:0;
     -webkit-transform: translateX(0);
             transform: translateX(0);
-    	    opacity:.03;
+
   }
   100% {
-    -webkit-transform: translateX(-40rem);
-            transform: translateX(-40rem);
-            	    opacity:1;
+    opacity:1;
+    -webkit-transform: translateX(-170px);
+            transform: translateX(-170px);
 
   }
 }

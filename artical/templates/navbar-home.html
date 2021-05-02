@@ -15,8 +15,8 @@
 					<li><a href="#" class="nav-item nav-link">About Us</a></li>
                     <li ><a href="{% url 'show_articals' %}" class="nav-item nav-link" >show</a></li>
                      <li ><a href="#artical" class="nav-item nav-link">create artical </a></li>
-                     <li>
-                     <form class="form" method="get" action="{% url 'serach' %}" >
+                     <li style="display:none;">
+                     <form class="form" method="get" action="{% url 'serach' %}"  >
                          <input style="" name="st" class="form-control" type="text" placeholder="serach title by ">
                          <!--<button style="display:block-inline; " class="btn btn-primary btn-sm" type="submit" > serach </button>
                      --> </form></li>

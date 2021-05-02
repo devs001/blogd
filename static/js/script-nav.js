@@ -1,6 +1,6 @@
 jQuery(function($) {
     $(window).on('scroll', function() {
-		if ($(this).scrollTop() >= 200) {
+		if ($(this).scrollTop() >= 5) {
 			$('.navbar').addClass('fixed-top');
 		} else if ($(this).scrollTop() == 0) {
 			$('.navbar').removeClass('fixed-top');
@@ -31,3 +31,4 @@ jQuery(function($) {
 	
 	adjustNav();
 });
+

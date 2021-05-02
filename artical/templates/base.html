@@ -3,44 +3,38 @@
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
-<body data-spy="scroll" data-target="#menu" data-offset="0" >
 
 
 <!-- here some iphone need code skiped -->
 <header class="header-area overlay">
-    <div id="show">{% include 'navbar-home.html' %}
+    {% include 'navbar-home.html' %}
         <div class="banner">
-        <div class="container slide-top">
+        <div class="container anima" data-type="slide-top"  data-delay="0.25s">
 			<h1>Bootstrap 4 Navbar</h1>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
 			<a href="#content" class="button button-primary">Learn More</a>
 		</div>
-        <div class="container slide-left">
-            <div class="img-container">
-			<img src="{% static 'img/illustrations/forming_ideas.svg' %}" style=" object-fit: contain;" >
+        <div class="container left anima" data-type="slide-left" data-delay="0.5s" >
+            <div class="img-container" >
+			<img class="header"  src="{% static 'img/illustrations/forming_ideas.svg' %}" style=" object-fit: contain;" >
             </div>
 		</div>
-        </div>
         </div>
   </header>
 
 
-<section class="section-area" id="about">
-    <div class="banner">
-        <div class="container">
-
-            <h4>you can read </h4>
-            <p> know what other people are
-            thinking about a topic. expand
-                your knowlege or just fun</p>
-        </div>
-        <div >
-
-            <h4>you can read </h4>
-            <p> know what other people are
-            thinking about a topic. expand
-                your knowlege or just fun</p>
-        </div>
+<section class="section-area " id="about">
+    <div class="section-banner">
+        <div class="container anima" data-type="slide-top" data-delay="0.25s">
+			<div class="img-container ">
+			<img class="second"  src="{% static 'img/illustrations/typewriter.png' %}" style=" object-fit: contain;" >
+            </div>
+		</div>
+        <div class="container second-text anima" data-type="slide-left" data-delay="0.5s" >
+			<h1>Bootstrap 4 Navbar</h1>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
+			<a href="#content" class="button button-primary">Learn More</a>
+		</div>
 
     </div>
 </section>
@@ -115,6 +109,28 @@
         </div>
     </div>
 </div>
+<script>
+        const images = document.querySelectorAll(".anima");
+
+        observer = new IntersectionObserver((entries) => {
+
+            entries.forEach(entry => {
+                if(entry.intersectionRatio > 0) {
+                let animations = entry.target.dataset.type + " .7s " + entry.target.dataset.delay + " forwards ease-in-out";
+                    entry.target.style.animation = animations;
+                }
+                else {
+                }
+            })
+
+        })
+
+        images.forEach(image => {
+            observer.observe(image)
+        })
+
+</script>
+
 {% endblock content %}
 
 <!-- this where main caption start
@@ -136,5 +152,3 @@
 -->
 
 
-</body>
-</html>

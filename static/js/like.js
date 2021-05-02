@@ -28,7 +28,7 @@ $('#like').click(function(){
 $(document).ready(function() {
 
 var s =     '{{receiver_username}}'.toString();
-var url= 'wss://'+window.location.host+'/ws/'+'notifications/';
+var url= 'ws://'+window.location.host+'/ws/'+'notifications/';
 
 var chatsocket = new WebSocket(url);
 

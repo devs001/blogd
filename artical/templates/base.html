@@ -9,31 +9,31 @@
 <header class="header-area overlay">
     {% include 'navbar-home.html' %}
         <div class="banner">
-        <div class="container anima" data-type="slide-top"  data-delay="0.25s">
+        <div class="container anima" style="opacity:0;" data-type="slide-top"  data-delay="0.25s">
 			<h1>Bootstrap 4 Navbar</h1>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
 			<a href="#content" class="button button-primary">Learn More</a>
 		</div>
-        <div class="container left anima" data-type="slide-left" data-delay="0.5s" >
+        <div class="container  "   >
             <div class="img-container" >
-			<img class="header"  src="{% static 'img/illustrations/forming_ideas.svg' %}" style=" object-fit: contain;" >
+			<img  class="header anima"  data-type="slide-left" data-delay="0.5s"  src="{% static 'img/illustrations/forming_ideas.svg' %}" style=" opacity:0; object-fit: contain;" >
             </div>
 		</div>
         </div>
   </header>
 
 
-<section class="section-area " id="about">
-    <div class="section-banner">
-        <div class="container anima" data-type="slide-top" data-delay="0.25s">
+<section class="section-area "  >
+    <div class="section-banner"   >
+        <div class="container " >
 			<div class="img-container ">
-			<img class="second"  src="{% static 'img/illustrations/typewriter.png' %}" style=" object-fit: contain;" >
+			<img   data-type="slide-top" data-delay="0.25s"  src="{% static 'img/illustrations/typewriter.svg' %}" style=" opacity:0;   object-fit: contain;" >
             </div>
 		</div>
-        <div class="container second-text anima" data-type="slide-left" data-delay="0.5s" >
-			<h1>Bootstrap 4 Navbar</h1>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
-			<a href="#content" class="button button-primary">Learn More</a>
+
+        <div class="container " >
+			<h1  class="second-text  anima" data-type="slide-left" data-delay="0.25s">Bootstrap 4 Navbar</h1>
+			<p class="second-text description  anima" data-type="slide-left" data-delay="0.5s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec elit ex. Etiam elementum lectus et tempor molestie.</p>
 		</div>
 
     </div>
@@ -115,7 +115,7 @@
         observer = new IntersectionObserver((entries) => {
 
             entries.forEach(entry => {
-                if(entry.intersectionRatio > 0) {
+                if(entry.intersectionRatio > 0.2) {
                 let animations = entry.target.dataset.type + " .7s " + entry.target.dataset.delay + " forwards ease-in-out";
                     entry.target.style.animation = animations;
                 }

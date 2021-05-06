@@ -24,6 +24,7 @@ body {
 }
 html {
       scroll-behavior: smooth;
+      overflow-x:hidden;
 
 }
 
@@ -177,51 +178,66 @@ heading .h3 {
 }
 .container{
     position:relative;
-    padding : 7rem 0rem 2px 0px;
-    margin-right:0px;
+    padding : 0rem 0rem 0px 0px;
+    margin-top:50px;
 
+}
+.second-text {
+    color:black;
+    opacity:0;
+}
+
+.description {
+    width:40vw;
 }
 
 .container.anima {
     margin-top: 27rem;
 }
-.anima{
+
+.anima .header{
     opacity:o;
 }
+
 .container.left {
-        float:left;
-        margin-left: -1rem;
+
     position:relative;
+    margin-top:7rem;
+    left:17rem;
+
+
 }
+
 .img-container {
     position:relative;
     }
 
 .img-container{
     position:relative;
+    height:40rem;
+    width:60rem;
 }
 
 .img-container .second {
-    position:absolute;
-    right: 5rem;
-    top: -10rem;
+
+
     height:40rem;
     width:60rem;
     }
 
+.container.second-text{
+   right: -10rem;
+    top: -20rem;
+    max-width:80rem;
+}
 
 
 .img-container .header {
     height:50rem;
     width:70rem;
     right: -20rem;
-    top: -25rem;
-
+    top: -90rem;
     }
-
-.second-text {
-
-}
 
 .home-inner {
   position: fixed;
@@ -236,17 +252,17 @@ heading .h3 {
           transform: translateZ(0);
   will-change: transform;
 }
+
 .jumbotron {
     color: dark;
 }
+
 .form {
     color: white;
-
-
 }
+
 
 .second.container {
     height:50rem;
     width:70rem;
 }
-
